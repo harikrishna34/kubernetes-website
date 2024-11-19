@@ -9,15 +9,37 @@ min-kubernetes-server-version: 1.21
 
 {{< feature-state for_k8s_version="v1.23" state="stable" >}}
 
-Ваш кластер Kubernetes має мережу з [підтримкою подвійного стека](/uk/docs/concepts/services-networking/dual-stack/), що означає, що у кластері мережева взаємодія може використовувати обидві адресні родини. У кластері панель управління може призначити як IPv4-адреси, так і IPv6-адреси {{< glossary_tooltip text="Podʼу" term_id="pod" >}} чи {{< glossary_tooltip text="Service" term_id="service" >}}.
+Ваш кластер Kubernetes має мережу з [підтримкою подвійного стека](/docs/concepts/services-networking/dual-stack/), що означає, що у кластері мережева взаємодія може використовувати обидві адресні родини. У кластері панель управління може призначити як IPv4-адреси, так і IPv6-адреси {{< glossary_tooltip text="Podʼу" term_id="pod" >}} чи {{< glossary_tooltip text="Service" term_id="service" >}}.
 
 <!-- body -->
 
 ## {{% heading "prerequisites" %}}
 
-Вам потрібно встановити інструмент {{< glossary_tooltip text="kubeadm" term_id="kubeadm" >}}, дотримуючись кроків з [Встановлення kubeadm](/uk/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
+Вам потрібно встановити інструмент {{< glossary_tooltip text="kubeadm" term_id="kubeadm" >}}, дотримуючись кроків з [Встановлення kubeadm](/docs/setup/production-environment/tools/kubeadm/install-kubeadm/).
 
-Для кожного сервера, який ви хочете використовувати як {{< glossary_tooltip text="вузол" term_id="node" >}}, переконайтеся, що на ньому увімкнено переспрямовування IPv6 трафіку (IPv6 forwarding). На Linux це можна зробити, виконавши `sysctl -w net.ipv6.conf.all.forwarding=1` з правами користувача root на кожному сервері.
+Для кожного сервера, який ви хочете використовувати як {{< glossary_tooltip text="вузол" term_id="node" >}}, переконайтеся, що на ньому увімкнено переспрямовування IPv6 трафіку (IPv6 forwarding).
+
+### Увімкнення переспрямовування пакетів IPv6 {#prerequisites-ipv6-forwarding}
+
+Для перевірки чи увімкнено переспрямовування пакетів IPv6, виконайте наступну команду:
+
+```shell
+sysctl net.ipv6.conf.all.forwarding
+```
+
+Якщо ви бачите `net.ipv6.conf.all.forwarding = 1`, це означає, що переспрямовування пакетів IPv6 увімкнено. В іншому випадку переспрямовування пакетів ще не увімкнено.
+
+Ввімкніть його вручну:
+
+```bash
+# параметри sysctl, необхідні для встановлення, параметри зберігаються при перезавантаженні
+cat <<EOF | sudo tee -a /etc/sysctl.d/k8s.conf
+net.ipv6.conf.all.forwarding = 1
+EOF
+
+# Застосування параметрів sysctl без перезавантаження
+sudo sysctl --system
+```
 
 Вам потрібні діапазони адрес IPv4 та IPv6. Оператори кластера, як правило,
 використовують приватні діапазони адрес для IPv4. Щодо IPv6, оператор кластера, як правило, обирає глобальний унікальний блок адрес з області `2000::/3`, використовуючи діапазон, який виділений оператору. Вам не потрібно робити маршрутизацію IP-діапазонів кластера в Інтернет.
@@ -38,7 +60,7 @@ Serviceʼів, які ви плануєте запускати.
 kubeadm init --pod-network-cidr=10.244.0.0/16,2001:db8:42:0::/56 --service-cidr=10.96.0.0/16,2001:db8:42:1::/112
 ```
 
-Щоб зробити це більш зрозумілим, ось приклад [конфігураційного файлу](/uk/docs/reference/config-api/kubeadm-config.v1beta4/) kubeadm `kubeadm-config.yaml` для основного вузла панелі управління з подвійним стеком.
+Щоб зробити це більш зрозумілим, ось приклад [конфігураційного файлу](/docs/reference/config-api/kubeadm-config.v1beta4/) kubeadm `kubeadm-config.yaml` для основного вузла панелі управління з подвійним стеком.
 
 ```yaml
 ---
@@ -68,7 +90,7 @@ nodeRegistration:
 kubeadm init --config=kubeadm-config.yaml
 ```
 
-Прапори kube-controller-manager `--node-cidr-mask-size-ipv4|--node-cidr-mask-size-ipv6` встановлені у стандартні значення. Див. [налаштування подвійного стека IPv4/IPv6](/uk/docs/concepts/services-networking/dual-stack#configure-ipv4-ipv6-dual-stack).
+Прапори kube-controller-manager `--node-cidr-mask-size-ipv4|--node-cidr-mask-size-ipv6` встановлені у стандартні значення. Див. [налаштування подвійного стека IPv4/IPv6](/docs/concepts/services-networking/dual-stack#configure-ipv4-ipv6-dual-stack).
 
 {{< note >}}
 Прапорець `--apiserver-advertise-address` не підтримує подвійний стек.
@@ -78,7 +100,7 @@ kubeadm init --config=kubeadm-config.yaml
 
 Перш ніж приєднати вузол, переконайтеся, що вузол має мережевий інтерфейс з можливістю маршрутизації IPv6 та дозволяє пересилання IPv6.
 
-Ось приклад [конфігураційного файлу](/uk/docs/reference/config-api/kubeadm-config.v1beta3/) kubeadm `kubeadm-config.yaml` для приєднання робочого вузла до кластера.
+Ось приклад [конфігураційного файлу](/docs/reference/config-api/kubeadm-config.v1beta3/) kubeadm `kubeadm-config.yaml` для приєднання робочого вузла до кластера.
 
 ```yaml
 apiVersion: kubeadm.k8s.io/v1beta4
@@ -96,7 +118,7 @@ nodeRegistration:
     value: "10.100.0.2,fd00:1:2:3::3"
 ```
 
-Також ось приклад [конфігураційного файлу](/uk/docs/reference/config-api/kubeadm-config.v1beta4/) kubeadm `kubeadm-config.yaml` для приєднання іншого вузла панелі управління до кластера.
+Також ось приклад [конфігураційного файлу](/docs/reference/config-api/kubeadm-config.v1beta4/) kubeadm `kubeadm-config.yaml` для приєднання іншого вузла панелі управління до кластера.
 
 ```yaml
 apiVersion: kubeadm.k8s.io/v1beta4
@@ -130,7 +152,7 @@ kubeadm join --config=kubeadm-config.yaml
 Підтримка подвійного стека не означає, що вам потрібно використовувати подвійні адреси. Ви можете розгорнути кластер з одним стеком, в якому увімкнена функція роботи з мережею з подвійним стеком.
 {{< /note >}}
 
-Щоб зробити речі більш зрозумілими, [конфігураційного файлу](/uk/docs/reference/config-api/kubeadm-config.v1beta4/) kubeadm `kubeadm-config.yaml` для панелі управління з одним стеком.
+Щоб зробити речі більш зрозумілими, [конфігураційного файлу](/docs/reference/config-api/kubeadm-config.v1beta4/) kubeadm `kubeadm-config.yaml` для панелі управління з одним стеком.
 
 ```yaml
 apiVersion: kubeadm.k8s.io/v1beta4
@@ -142,6 +164,6 @@ networking:
 
 ## {{% heading "whatsnext" %}}
 
-* [Перевірка мережевої взаємодії в подвійному стеку IPv4/IPv6](/uk/docs/tasks/network/validate-dual-stack)
-* Дізнайтеся більше про [підтримку подвійного стека](/uk/docs/concepts/services-networking/dual-stack/)
-* Дізнайтеся більше про [формат конфігурації kubeadm](/uk/docs/reference/config-api/kubeadm-config.v1beta4/)
+* [Перевірка мережевої взаємодії в подвійному стеку IPv4/IPv6](/docs/tasks/network/validate-dual-stack)
+* Дізнайтеся більше про [підтримку подвійного стека](/docs/concepts/services-networking/dual-stack/)
+* Дізнайтеся більше про [формат конфігурації kubeadm](/docs/reference/config-api/kubeadm-config.v1beta4/)

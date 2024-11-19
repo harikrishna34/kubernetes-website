@@ -11,4 +11,4 @@ stages:
     fromVersion: "1.31"
 ---
 
-Дозволяє увімкнути [налаштовувані точки доступу для анонімної автентифікації](/docs/reference/access-authn-authz/authentication/#anonymous-authenticator-configuration) для сервера API.
+Дозволяє налаштувати анонімну автентифікацію/авторизацію лише на певних точках доступу сервера API.

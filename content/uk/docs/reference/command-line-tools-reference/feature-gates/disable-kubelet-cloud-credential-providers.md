@@ -9,9 +9,14 @@ stages:
   - stage: alpha
     defaultValue: false
     fromVersion: "1.23"
-    toVersion: "1.28"    
-  - stage: beta 
+    toVersion: "1.28"
+  - stage: beta
     defaultValue: true
-    fromVersion: "1.29"     
+    fromVersion: "1.29"
+    toVersion: "1.30"
+  - stage: stable
+    defaultValue: true
+    fromVersion: "1.31"
+
 ---
-Вмикає вбудовану функціональність kubelet для автентифікації в реєстрі контейнерів хмарного постачальника для отримання облікових даних для отримання образів.
+Увімкнення функціональної можливості деактивувало застарілу функціональність вбудовану в kubelet, що дозволяла kubelet автентифікуватися в реєстрі контейнерів хмарного провайдера для отримання образів контейнерів.

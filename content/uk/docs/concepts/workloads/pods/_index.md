@@ -32,7 +32,7 @@ Podʼи в кластері Kubernetes використовуються двом
 
 * **Podʼи, що керують одним контейнером**. Модель "один контейнер на Pod" є найпоширенішим використанням в Kubernetes. У цьому випадку Pod можна розглядати як обгортку навколо одного контейнера; Kubernetes керує Podʼами, а не контейнерами безпосередньо.
 * **Podʼи, що керують кількома контейнерами, які мають працювати разом**. Pod може інкапсулювати застосунок, який складається з кількох [розміщених разом контейнерів](#how-pods-manage-multiple-containers), які тісно повʼязані та мають спільні ресурси. Такі контейнери утворюють єдиний обʼєкт.
-  
+
 Група кількох контейнерів, розміщених разом в одному Podʼі є відносно складним прикладом. Ви повинні використовувати цей шаблон тільки в конкретних випадках, коли ваші контейнери тісно повʼязані.
 
 Вам не треба запускати кілька контейнерів для забезпечення реплікації (для підтримання стійкості чи місткості); якщо вам потрібно кілька реплік, дивіться [ресурси робочих навантажень](/docs/concepts/workloads/controllers/).
@@ -227,6 +227,6 @@ _Probe_ — це діагностика, яку періодично викон
 
 * [Aurora](https://aurora.apache.org/documentation/latest/reference/configuration/#job-schema)
 * [Borg](https://research.google.com/pubs/pub43438.html)
-* [Marathon](https://mesosphere.github.io/marathon/docs/rest-api.html)
+* [Marathon](https://github.com/d2iq-archive/marathon)
 * [Omega](https://research.google/pubs/pub41684/)
 * [Tupperware](https://engineering.fb.com/data-center-engineering/tupperware/).

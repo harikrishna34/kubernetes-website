@@ -13,7 +13,7 @@ card:
 
 <!-- overview -->
 
-Kubernetes зберігає всі мітки та анотації в просторах імен `kubernetes.io` і `k8s.io`.
+Kubernetes зберігає всі мітки, анотації та taint в просторах імен `kubernetes.io` і `k8s.io`.
 
 Цей документ одночасно є і довідником, і точкою для призначення значень.
 
@@ -304,6 +304,169 @@ Kubernetes зберігає всі мітки та анотації в прос�
 Ця анотація є частиною специфікації функцій Моделі Ресурсів Kubernetes (KRM), яка використовується Kustomize та подібними сторонніми інструментами.
 
 Функція KRM **не повинна** змінювати цю анотацію у вхідних обʼєктах, якщо вона не змінює файли, на які посилається. Функція KRM **може** включати цю анотацію в обʼєкти, які вона генерує.
+
+### kube-scheduler-simulator.sigs.k8s.io/bind-result
+
+Тип: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/bind-result: '{"DefaultBinder":"success"}'`
+
+Використовується для: Pod
+
+Ця анотація записує результат bind втулків планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/filter-result
+
+Тип: Annotation
+
+Приклад:
+
+```yaml
+kube-scheduler-simulator.sigs.k8s.io/filter-result: >-
+      {"node-282x7":{"AzureDiskLimits":"passed","EBSLimits":"passed","GCEPDLimits":"passed","InterPodAffinity":"passed","NodeAffinity":"passed","NodeName":"passed","NodePorts":"passed","NodeResourcesFit":"passed","NodeUnschedulable":"passed","NodeVolumeLimits":"passed","PodTopologySpread":"passed","TaintToleration":"passed","VolumeBinding":"passed","VolumeRestrictions":"passed","VolumeZone":"passed"},"node-gp9t4":{"AzureDiskLimits":"passed","EBSLimits":"passed","GCEPDLimits":"passed","InterPodAffinity":"passed","NodeAffinity":"passed","NodeName":"passed","NodePorts":"passed","NodeResourcesFit":"passed","NodeUnschedulable":"passed","NodeVolumeLimits":"passed","PodTopologySpread":"passed","TaintToleration":"passed","VolumeBinding":"passed","VolumeRestrictions":"passed","VolumeZone":"passed"}}
+```
+
+Використовується для: Pod
+
+Ця анотація записує результат роботи втулків фільтрів планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/finalscore-result
+
+Тип: Annotation
+
+Приклад:
+
+```yaml
+kube-scheduler-simulator.sigs.k8s.io/finalscore-result: >-
+      {"node-282x7":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"200","TaintToleration":"300","VolumeBinding":"0"},"node-gp9t4":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"200","TaintToleration":"300","VolumeBinding":"0"}}
+```
+
+Використовується для: Pod
+
+Ця анотація записує остаточні бали, які планувальник обчислює з балів, отриманих від втулків планувальника для розрахунку балів, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/permit-result
+
+Тип: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/permit-result: '{"CustomPermitPlugin":"success"}'`
+
+Використовується для: Pod
+
+Ця анотація записує результат роботи втулків дозволів планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/permit-result-timeout
+
+Тип: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/permit-result-timeout: '{"CustomPermitPlugin":"10s"}'`
+
+Використовується для: Pod
+
+Ця анотація записує таймаути, що повертаються втулками дозволів планувальника, які використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/postfilter-result
+
+Тип: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/postfilter-result: '{"DefaultPreemption":"success"}'`
+
+Використовується для: Pod
+
+Ця анотація записує результат роботи втулків постфільтрів планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/prebind-result
+
+Тип: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/prebind-result: '{"VolumeBinding":"success"}'`
+
+Використовується для: Pod
+
+Ця анотація записує результат prebind роботи втулків планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/prefilter-result
+
+Type: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/prebind-result: '{"NodeAffinity":"[\"node-\a"]"}'`
+
+Використовується для: Pod
+
+Ця анотація записує результат PreFilter роботи втулків планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/prefilter-result-status
+
+Type: Annotation
+
+Приклад:
+
+```yaml
+kube-scheduler-simulator.sigs.k8s.io/prefilter-result-status: >-
+      {"InterPodAffinity":"success","NodeAffinity":"success","NodePorts":"success","NodeResourcesFit":"success","PodTopologySpread":"success","VolumeBinding":"success","VolumeRestrictions":"success"}
+```
+
+Використовується для: Pod
+
+Ця анотація записує результат prefilter роботи втулків планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/prescore-result
+
+Type: Annotation
+
+Приклад:
+
+```yaml
+    kube-scheduler-simulator.sigs.k8s.io/prescore-result: >-
+      {"InterPodAffinity":"success","NodeAffinity":"success","NodeNumber":"success","PodTopologySpread":"success","TaintToleration":"success"}
+```
+
+Використовується для: Pod
+
+Ця анотація записує результат prefilter роботи втулків планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/reserve-result
+
+Type: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/reserve-result: '{"VolumeBinding":"success"}'`
+
+Використовується для: Pod
+
+Ця анотація записує результат reserve роботи втулків планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/result-history
+
+Type: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/result-history: '[]'`
+
+Використовується для: Pod
+
+У цій анотації записано всі минулі результати планування за допомогою втулків планувальника, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/score-result
+
+Type: Annotation
+
+```yaml
+    kube-scheduler-simulator.sigs.k8s.io/score-result: >-
+      {"node-282x7":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"0","TaintToleration":"0","VolumeBinding":"0"},"node-gp9t4":{"ImageLocality":"0","InterPodAffinity":"0","NodeAffinity":"0","NodeNumber":"0","NodeResourcesBalancedAllocation":"76","NodeResourcesFit":"73","PodTopologySpread":"0","TaintToleration":"0","VolumeBinding":"0"}}
+```
+
+Використовується для: Pod
+
+Ця анотація записує результат роботи втулків планувальника оцінок, що використовуються https://sigs.k8s.io/kube-scheduler-simulator.
+
+### kube-scheduler-simulator.sigs.k8s.io/selected-node
+
+Type: Annotation
+
+Приклад: `kube-scheduler-simulator.sigs.k8s.io/selected-node: node-282x7`
+
+Використовується для: Pod
+
+Ця анотація записує вузол, який обрано циклом планування, що використовується https://sigs.k8s.io/kube-scheduler-simulator.
 
 ### kubernetes.io/arch
 

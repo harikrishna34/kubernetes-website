@@ -218,7 +218,10 @@ Podʼи Kubernetes складаються з одного або декільк�
 
 #### Багатокомандна оренда {#multi-team-tenancy}
 
+{{% thirdparty-content %}}
+
 - [Capsule](https://github.com/clastix/capsule)
+- [Multi Tenant Operator](https://docs.stakater.com/mto/)
 
 #### Багатокористувацька оренда {#multi-customer-tenancy}
 

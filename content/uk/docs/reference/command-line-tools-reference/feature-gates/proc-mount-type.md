@@ -6,8 +6,12 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: alpha
     defaultValue: false
     fromVersion: "1.12"
+    toVersion: "1.30"
+  - stage: beta
+    defaultValue: false
+    fromVersion: "1.31"
 ---
-Дозволяє керувати типом монтування proc для контейнерів, встановлюючи поле `procMount` у SecurityContext.
+Дозволяє керувати типом монтування proc для контейнерів, встановлюючи поле `procMount` Podʼа у `securityContext`.

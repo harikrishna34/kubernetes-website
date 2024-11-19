@@ -13,5 +13,10 @@ stages:
   - stage: beta
     defaultValue: false
     fromVersion: "1.25"
+    toVersion: "1.30"
+  - stage: beta
+    defaultValue: true
+    fromVersion: "1.31"
 ---
+
 Вмикає shimʼи та логіку передачі для маршрутизації операцій тому з вбудованого втулка Portworx до втулка Portworx CSI. Вимагає встановлення та налаштування втулка Portworx CSI в кластері.

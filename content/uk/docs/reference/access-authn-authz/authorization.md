@@ -112,6 +112,10 @@ API-сервер Kubernetes може авторизувати запит, вик
 Ви не повинні використовувати режим `AlwaysAllow` на кластері Kubernetes, де API сервер доступний публічно з інтернету.
 {{< /warning >}}
 
+### Група system:masters {#the-system-masters-group}
+
+Група `system:masters` є вбудованою групою Kubernetes, яка надає необмежений доступ до сервера API. Будь-який користувач, призначений до цієї групи, має повні привілеї адміністратора кластера, обходячи будь-які обмеження авторизації, що накладаються механізмами RBAC або Webhook. [Не додавайте користувачів](/docs/concepts/security/rbac-good-practices/#least-privilege) до цієї групи. Якщо вам потрібно надати користувачеві права cluster-admin, ви можете створити [ClusterRoleBinding](/docs/reference/access-authn-authz/rbac/#user-facing-roles) до вбудованої `cluster-admin` ClusterRole.
+
 ### Конфігурація режиму авторизації {#choice-of-authz-config}
 
 Ви можете налаштувати ланцюжок авторизації API сервера Kubernetes, використовуючи або [параметри командного рядка](#using-flags-for-your-authorization-module), або, як бета-функцію, використовуючи [конфігураційний файл](#using-configuration-file-for-authorization).
