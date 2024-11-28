@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: capacity-reservation
+  # Ви маєте вирішити, в якому просторі імен розгортати
 spec:
   replicas: 1
   selector:

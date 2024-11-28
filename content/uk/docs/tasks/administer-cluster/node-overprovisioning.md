@@ -13,12 +13,12 @@ weight: 10
 ## {{% heading "prerequisites" %}}
 
 - Вам потрібен кластер Kubernetes, і інструмент командного рядка kubectl має бути налаштований для звʼязку з вашим кластером.
-- Ви повинні мати базове розуміння про [Deployments](/docs/concepts/workloads/controllers/deployment/), {{< glossary_tooltip text="пріоритет" term_id="pod-priority" >}} podʼів, та [PriorityClasses](/docs/concepts/scheduling-eviction/pod-priority-preemption/#priorityclass).
+- Ви повинні мати базове розуміння про [Deployments](/docs/concepts/workloads/controllers/deployment/), {{< glossary_tooltip text="пріоритет" term_id="pod-priority" >}} podʼів, та {{< glossary_tooltip text="PriorityClasses" term_id="priority-class" >}}.
 - У вашому кластері має бути налаштований з [автомасштабувальник](/docs/concepts/cluster-administration/cluster-autoscaling/), який керує вузлами на основі попиту.
 
 <!-- steps -->
 
-## Створіть Deployment-заповнювач {#create-a-placeholder-deployment}
+## Створіть PriorityClass {#create-a-priorityclass}
 
 Почніть з визначення PriorityClass для podʼів-заповнювачів. Спочатку створіть PriorityClass з негативним значенням пріоритету, який ви незабаром призначите podʼам-заповнювачам. Пізніше ви налаштуєте Deployment, яке використовує цей PriorityClass.
 
@@ -32,14 +32,23 @@ kubectl apply -f https://k8s.io/examples/priorityclass/low-priority-class.yaml
 
 Далі ви визначите Deployment, який використовує PriorityClass з негативним пріоритетом і запускає мінімальний контейнер. Коли ви додасте його до свого кластера, Kubernetes запустить ці podʼи-заповнювачі для резервування ємності. У разі нестачі ємності, панель управління вибере один з цих podʼів-заповнювачів як першого кандидата для {{< glossary_tooltip text="випередження" term_id="preemption" >}}.
 
+## Запустіть Podʼи, що запитують ємність вузла {#run-pods-that-request-node-capacity}
+
 Перегляньте зразок маніфесту:
 
 {{% code_sample language="yaml" file="deployments/deployment-with-capacity-reservation.yaml" %}}
 
+### Оберіть простір імен для podʼів-заповнювачів {#pick-a-namespace-for-the-placeholder-pods}
+
+Виберіть, або створіть, {{ < glossary_tooltip text="простір імен" term_id="namespace" >}}, в якому ви будете запускати podʼи-заповнювачі.
+
+### Створіть Deployment-заповнювач {#create-the-placeholder-deployment}
+
 Створіть Deployment на основі цього маніфесту:
 
 ```shell
-kubectl apply -f https://k8s.io/examples/deployments/deployment-with-capacity-reservation.yaml
+# Змініть `example` на простір імен, який ви вибрали
+kubectl --namespace example apply -f https://k8s.io/examples/deployments/deployment-with-capacity-reservation.yaml
 ```
 
 ## Налаштуйте запити ресурсів для заповнювачів {#adjust-placeholder-resource-request}
@@ -48,7 +57,13 @@ kubectl apply -f https://k8s.io/examples/deployments/deployment-with-capacity-re
 
 Щоб редагувати Deployment, змініть розділ `resources` у файлі маніфесту Deployment, щоб встановити відповідні запити та обмеження. Ви можете завантажити цей файл локально та відредагувати його за допомогою будь-якого текстового редактора.
 
-Наприклад, щоб зарезервувати 500m CPU та 1Gi памʼяті для 5 podʼів-заповнювачів, визначте запити та обмеження ресурсів для одного podʼа-заповнювача наступним чином:
+Ви можете редагувати маніфест Deployment використовуючи kubectl:
+
+```shell
+kubectl edit deployment capacity-reservation
+```
+
+Наприклад, щоб зарезервувати 0.5 CPU та 1GiB памʼяті для 5 podʼів-заповнювачів, визначте запити та обмеження ресурсів для одного podʼа-заповнювача наступним чином:
 
 ```yaml
   resources:
@@ -63,10 +78,10 @@ kubectl apply -f https://k8s.io/examples/deployments/deployment-with-capacity-re
 
 ### Розрахуйте загальні зарезервовані ресурси{#calculate-the-total-reserved-resources}
 
-Наприклад, з 5 репліками, кожна з яких резервує 0.1 CPU та 200MiB памʼяті:
-
-Загальна зарезервована емність CPU: 5 × 0.1 = 0.5 (у специфікації podʼа ви напишете кількість `500m`)
-Загальна зарезервована памʼять: 5 × 200MiB = 1GiB (у специфікації podʼа ви напишете `1 Gi`)
+<!-- пробіли в кінці рядків в наступних абзацах треба зберегти -->
+Наприклад, з 5 репліками, кожна з яких резервує 0.1 CPU та 200MiB памʼяті:  
+Загальна зарезервована емність CPU: 5 × 0.1 = 0.5 (у специфікації podʼа ви напишете кількість `500m`)  
+Загальна зарезервована памʼять: 5 × 200MiB = 1GiB (у специфікації podʼа ви напишете `1 Gi`)  
 
 Щоб масштабувати Deployment, налаштуйте кількість реплік відповідно до розміру вашого кластера та очікуваного навантаження:
 

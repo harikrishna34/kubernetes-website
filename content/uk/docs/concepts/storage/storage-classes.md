@@ -160,6 +160,8 @@ Kubernetes has gone out of support -->
 
 {{% code_sample language="yaml" file="storage/storageclass/storageclass-aws-ebs.yaml" %}}
 
+`tagSpecification`: Теґи з цим префіксом застосовуються до динамічно наданих томів EBS.
+
 ### AWS EFS
 
 Щоб налаштувати сховище AWS EFS, можна використовувати сторонній драйвер [AWS_EFS_CSI_DRIVER](https://github.com/kubernetes-sigs/aws-efs-csi-driver).

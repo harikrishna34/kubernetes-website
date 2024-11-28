@@ -16,5 +16,3 @@ allowedTopologies:
   - key: topology.ebs.csi.aws.com/zone
     values:
     - us-east-2c
-
-# `tagSpecification`: Теґи з цим префіксом застосовуються до динамічно наданих томів EBS.
