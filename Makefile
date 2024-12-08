@@ -96,7 +96,15 @@ docker-push: ## Build a multi-architecture image and push that into the registry
 	$(DOCKER_BUILDX) stop image-builder
 	rm Dockerfile.cross
 
-container-build: module-check
+container-npm-ci:
+	mkdir -p node_modules
+	$(CONTAINER_RUN) --read-only \
+		--mount type=bind,source=$(CURDIR)/node_modules,target=/src/node_modules \
+		--mount type=tmpfs,destination=/var/hugo/.npm,tmpfs-mode=01777 \
+		--mount type=tmpfs,destination=/var/hugo/.cache,tmpfs-mode=01777 \
+		$(CONTAINER_IMAGE) npm ci
+
+container-build: module-check container-npm-ci
 	mkdir -p public
 	$(CONTAINER_RUN) --read-only \
 		--mount type=tmpfs,destination=/tmp,tmpfs-mode=01777 \
@@ -104,7 +112,7 @@ container-build: module-check
 		hugo --cleanDestinationDir --buildDrafts --buildFuture --environment preview --noBuildLock
 
 # no build lock to allow for read-only mounts
-container-serve: module-check ## Boot the development server using container.
+container-serve: module-check container-npm-ci ## Boot the development server using container.
 	$(CONTAINER_RUN) --cap-drop=ALL --cap-add=AUDIT_WRITE --read-only \
 		--mount type=tmpfs,destination=/tmp,tmpfs-mode=01777 -p 1313:1313 $(CONTAINER_IMAGE) \
 		hugo server --buildDrafts --buildFuture --environment development --bind 0.0.0.0 --destination /tmp/public --cleanDestinationDir --noBuildLock
