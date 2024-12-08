@@ -3,6 +3,7 @@ title = "Kubernetes"
 
 # Hugo allows theme composition (and inheritance). The precedence is from left to right.
 theme = ["docsy"]
+themesDir = "node_modules"
 
 # Language settings
 contentDir = "content/en"
