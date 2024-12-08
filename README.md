@@ -30,6 +30,22 @@ git clone https://github.com/kubernetes/website.git
 cd website
 ```
 
+The Kubernetes website uses git submodules. Even if you plan to run the website in a container, we strongly recommend pulling in the submodule and other development dependencies by running the following:
+
+### Windows
+
+```powershell
+# fetch submodule dependencies
+git submodule update --init --recursive --depth 1
+```
+
+### Linux / other Unix
+
+```bash
+# fetch submodule dependencies
+make module-init
+```
+
 ## Running the website using a container
 
 To build the site in a container, run the following:
