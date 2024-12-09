@@ -25,7 +25,6 @@ CONTAINER_HUGO_MOUNTS = \
 	--mount type=bind,source=$(CURDIR)/public,target=/src/public \
 	--mount type=bind,source=$(CURDIR)/resources,target=/src/resources \
 	--mount type=bind,source=$(CURDIR)/static,target=/src/static,readonly \
-	--mount type=bind,source=$(CURDIR)/themes,target=/src/themes,readonly \
 	--mount type=tmpfs,destination=/tmp,tmpfs-mode=01777 \
 	--mount type=bind,source=$(CURDIR)/hugo.toml,target=/src/hugo.toml,readonly
 
