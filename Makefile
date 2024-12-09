@@ -22,8 +22,8 @@ CONTAINER_HUGO_MOUNTS = \
 	--mount type=bind,source=$(CURDIR)/data,target=/src/data,readonly \
 	--mount type=bind,source=$(CURDIR)/i18n,target=/src/i18n,readonly \
 	--mount type=bind,source=$(CURDIR)/layouts,target=/src/layouts,readonly \
-	--mount type=bind,source=$(CURDIR)/public,target=/src/public \
-	--mount type=bind,source=$(CURDIR)/resources,target=/src/resources \
+	--mount type=tmpfs,destination=/src/public,tmpfs-mode=01777 \
+	--mount type=tmpfs,destination=/src/resources,tmpfs-mode=01777 \
 	--mount type=bind,source=$(CURDIR)/static,target=/src/static,readonly \
 	--mount type=tmpfs,destination=/tmp,tmpfs-mode=01777 \
 	--mount type=bind,source=$(CURDIR)/hugo.toml,target=/src/hugo.toml,readonly
