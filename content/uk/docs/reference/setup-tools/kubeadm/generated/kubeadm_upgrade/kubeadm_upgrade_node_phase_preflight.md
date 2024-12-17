@@ -18,6 +18,13 @@ kubeadm upgrade node phase preflight [flags]
     </colgroup>
     <tbody>
         <tr>
+            <td colspan="2">--config string</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Шлях до конфігураційного файлу kubeadm.</p></td>
+        </tr>
+        <tr>
             <td colspan="2">-h, --help</td>
         </tr>
         <tr>

@@ -1,12 +1,12 @@
 
-Вмикає ротацію сертифікатів клієнтів kubelet (ЗАСТАРІЛО: використовуйте натомість 'enable-client-cert-rotation' )
+Оновлює надбудову kube-proxy
 
 ### Опис {#synopsis}
 
-Вмикає ротацію сертифікатів клієнтів kubelet (ЗАСТАРІЛО: використовуйте натомість 'enable-client-cert-rotation' )
+Оновлює надбудову kube-proxy
 
 ```shell
-kubeadm init phase kubelet-finalize experimental-cert-rotation [flags]
+kubeadm upgrade apply phase addon kube-proxy [flags]
 ```
 
 ### Параметри {#options}
@@ -17,13 +17,6 @@ kubeadm init phase kubelet-finalize experimental-cert-rotation [flags]
         <col span="1" />
     </colgroup>
     <tbody>
-        <tr>
-            <td colspan="2">--cert-dir string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Типово: "/etc/kubernetes/pki"</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td style="line-height: 130%; word-wrap: break-word;"><p>Шлях, де будуть збережені сертифікати</p></td>
-        </tr>
         <tr>
             <td colspan="2">--config string</td>
         </tr>
@@ -43,7 +36,14 @@ kubeadm init phase kubelet-finalize experimental-cert-rotation [flags]
         </tr>
         <tr>
             <td></td>
-            <td style="line-height: 130%; word-wrap: break-word;"><p>Довідка experimental-cert-rotation</p></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Довідка kube-proxy</p></td>
+        </tr>
+        <tr>
+            <td colspan="2">--kubeconfig string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Типово: "/etc/kubernetes/admin.conf"</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Файл kubeconfig, який використовується для спілкування з кластером. Якщо прапорець не встановлено, може буити переглянутий набір стандартних місць для пошуку наявного файлу kubeconfig.</p></td>
         </tr>
     </tbody>
 </table>

@@ -10,7 +10,7 @@ _Селектори полів_ дозволяють вам вибирати о�
 * `metadata.namespace!=default`
 * `status.phase=Pending`
 
-Ця команда `kubectl` вибирає всі Podʼи, для яких значення поля [`status.phase`](/uk/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase) дорівнює `Running`:
+Ця команда `kubectl` вибирає всі Podʼи, для яких значення поля [`status.phase`](/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase) дорівнює `Running`:
 
 ```shell
 kubectl get pods --field-selector status.phase=Running
@@ -46,6 +46,12 @@ Error from server  (BadRequest): Unable to find "ingresses" that match label sel
 | Node                      | `spec.unschedulable`                                                                                                                                                                                                                                            |
 | CertificateSigningRequest | `spec.signerName`                                                                                                                                                                                                                                               |
 
+### Поля власних ресурсів {#custom-resources-fields}
+
+Усі власні типи ресурсів підтримують поля `metadata.name` та `metadata.namespace`.
+
+Крім того, поле `spec.versions[*].selectableFields` у {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} оголошує, які інші поля власного ресурсу можна використовувати у селекторах полів. Дивіться статтю [поля, які можна вибрати для власних ресурсів](/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#crd-selectable-fields) або додаткові відомості про те, як використовувати селектори полів з CustomResourceDefinitions.
+
 ## Підтримувані оператори {#supported-operators}
 
 Ви можете використовувати оператори `=`, `==` та `!=` з селекторами полів (`=` та `==` означають те саме). Наприклад, ця команда `kubectl` вибирає всі сервіси Kubernetes, які не знаходяться в просторі імен `default`:
@@ -55,13 +61,13 @@ kubectl get services  --all-namespaces --field-selector metadata.namespace!=defa
 ```
 
 {{< note >}}
-[Оператори на основі множини](/uk/docs/concepts/overview/working-with-objects/labels/#set-based-requirement)
+[Оператори на основі множини](/docs/concepts/overview/working-with-objects/labels/#set-based-requirement)
 (`in`, `notin`, `exists`) не підтримуються для селекторів полів.
 {{< /note >}}
 
 ## Ланцюжки селекторів {#chained-selectors}
 
-Як і з [мітками](/uk/docs/concepts/overview/working-with-objects/labels) та іншими селекторами, селектори полів можна складати у список, розділений комами. Ця команда `kubectl` вибирає всі Podʼи, для яких значення `status.phase` не дорівнює `Running`, а поле `spec.restartPolicy` дорівнює `Always`:
+Як і з [мітками](/docs/concepts/overview/working-with-objects/labels) та іншими селекторами, селектори полів можна складати у список, розділений комами. Ця команда `kubectl` вибирає всі Podʼи, для яких значення `status.phase` не дорівнює `Running`, а поле `spec.restartPolicy` дорівнює `Always`:
 
 ```shell
 kubectl get pods --field-selector=status.phase!=Running,spec.restartPolicy=Always

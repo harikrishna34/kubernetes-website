@@ -372,6 +372,7 @@ pluginapi.Device{ID: "25102017", Health: pluginapi.Healthy, Topology:&pluginapi.
 * [Akri](https://github.com/project-akri/akri) дозволяє легко використовувати різнорідні пристрої вузла (такі як IP-камери та USB-пристрої).
 * [Втулок пристрою AMD GPU](https://github.com/ROCm/k8s-device-plugin)
 * [Загальний втулок пристрою](https://github.com/squat/generic-device-plugin) для загальних пристроїв Linux та USB пристроїв
+* [HAMi](https://github.com/Project-HAMi/HAMi) для гетерогенного проміжного програмного забезпечення для віртуалізації обчислень ШІ (наприклад, NVIDIA, Cambricon, Hygon, Iluvatar, MThreads, Ascend, Metax)
 * [Втулки пристроїв Intel](https://github.com/intel/intel-device-plugins-for-kubernetes) для пристроїв Intel GPU, FPGA, QAT, VPU, SGX, DSA, DLB і IAA
 * [Втулки пристроїв KubeVirt](https://github.com/kubevirt/kubernetes-device-plugins) для апаратної підтримки віртуалізації
 * The [Втулок пристрою NVIDIA GPU](https://github.com/NVIDIA/k8s-device-plugin), Офіційний втулок для пристроїв від NVIDIA, який експонує графічні процесори NVIDIA та відстежує стан графічних процесорів

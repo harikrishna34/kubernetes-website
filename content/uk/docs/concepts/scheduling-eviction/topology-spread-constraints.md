@@ -63,7 +63,7 @@ spec:
 
   <!-- OK to remove this note once v1.29 Kubernetes is out of support -->
   {{< note >}}
-  До Kubernetes v1.30 поле `minDomains` було доступним, якщо [функціональну можливість](/docs/reference/command-line-tools-reference/feature-gates/) `MinDomainsInPodTopologySpread` було увімкнено (типово увімкнено починаючи з v1.28). В старіших кластерах Kubernetes воно може бути явно відключеним або поле може бути недоступним.
+  До Kubernetes v1.30 поле `minDomains` було доступним, якщо [функціональну можливість](/docs/reference/command-line-tools-reference/feature-gates-removed/) `MinDomainsInPodTopologySpread` було увімкнено (типово увімкнено починаючи з v1.28). В старіших кластерах Kubernetes воно може бути явно відключеним або поле може бути недоступним.
   {{< /note >}}
 
   - Значення `minDomains` повинно бути більше ніж 0, коли вказано. Ви можете вказати `minDomains` лише разом з `whenUnsatisfiable: DoNotSchedule`.

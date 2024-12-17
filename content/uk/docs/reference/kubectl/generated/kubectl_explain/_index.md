@@ -21,7 +21,7 @@ no_list: true
 Використовуйте "kubectl api-resources" для отримання повного списку підтримуваних ресурсів.
 
 ```shell
-kubectl explain TYPE [--recursive=FALSE|TRUE] [--api-version=api-version-group] [--output=plaintext|plaintext-openapiv2]
+kubectl explain TYPE [--recursive=FALSE|TRUE] [--api-version=api-version-group] [-o|--output=plaintext|plaintext-openapiv2]
 ```
 
 ## {{% heading "examples" %}}
@@ -66,7 +66,7 @@ kubectl explain deployment --output=plaintext-openapiv2
             <td style="line-height: 130%; word-wrap: break-word;"><p>Довідка explain</p></td>
         </tr>
         <tr>
-            <td colspan="2">--output string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Типово: "plaintext"</td>
+            <td colspan="2">-o, --output string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Типово: "plaintext"</td>
         </tr>
         <tr>
             <td></td>

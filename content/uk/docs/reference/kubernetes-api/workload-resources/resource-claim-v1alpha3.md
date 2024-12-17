@@ -491,7 +491,7 @@ ResourceClaimList — це колекція заявок.
 
 ### `get` отримати вказаний ResourceClaim {#get-read-the-specified-resourceclaim}
 
-#### HTTP запит {#http-request} 
+#### HTTP запит {#http-request}
 
 GET /apis/resource.k8s.io/v1alpha3/namespaces/{namespace}/resourceclaims/{name}
 
@@ -711,7 +711,7 @@ PUT /apis/resource.k8s.io/v1alpha3/namespaces/{namespace}/resourceclaims/{name}
 
 - **name** (*в шляху*): string, обовʼязково
 
-  name of the ResourceClaim
+  назва ResourceClaim
 
 - **namespace** (*в шляху*): string, обовʼязково
 
@@ -753,7 +753,7 @@ PUT /apis/resource.k8s.io/v1alpha3/namespaces/{namespace}/resourceclaims/{name}/
 
 - **name** (*в шляху*): string, обовʼязково
 
-  name of the ResourceClaim
+  назва ResourceClaim
 
 - **namespace** (*в шляху*): string, обовʼязково
 
@@ -795,7 +795,7 @@ PATCH /apis/resource.k8s.io/v1alpha3/namespaces/{namespace}/resourceclaims/{name
 
 - **name** (*в шляху*): string, обовʼязково
 
-  name of the ResourceClaim
+  назва ResourceClaim
 
 - **namespace** (*в шляху*): string, обовʼязково
 
@@ -887,7 +887,7 @@ DELETE /apis/resource.k8s.io/v1alpha3/namespaces/{namespace}/resourceclaims/{nam
 
 - **name** (*в шляху*): string, обовʼязково
 
-  name of the ResourceClaim
+  назва ResourceClaim
 
 - **namespace** (*в шляху*): string, обовʼязково
 

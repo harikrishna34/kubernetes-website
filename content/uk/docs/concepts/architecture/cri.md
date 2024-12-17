@@ -1,6 +1,6 @@
 ---
 title: Інтерфейс середовища виконання контейнерів (CRI)
-aka: 
+aka:
   - Container Runtime Interface
   - CRI
 content_type: concept
@@ -14,7 +14,7 @@ CRI — це інтерфейс втулка, який дозволяє kubelet
 Для того, щоб {{<glossary_tooltip text="kubelet" term_id="kubelet">}} міг запускати
 {{< glossary_tooltip text="Podʼи" term_id="pod" >}} та їхні контейнери, потрібне справне {{<glossary_tooltip text="середовище виконання контейнерів" term_id="container-runtime">}} на кожному вузлі в кластері.
 
-{{< glossary_definition prepend="Інтерфейс середовища виконання контейнерів (CRI) —" term_id="container-runtime-interface" length="all" >}}
+{{< glossary_definition prepend="Інтерфейс середовища виконання контейнерів (CRI) —" term_id="cri" length="all" >}}
 
 <!-- body -->
 

@@ -67,7 +67,7 @@ weight: 42
 
 {{< feature-state feature_gate_name="InPlacePodVerticalScaling" >}}
 
-Якщо ваш кластер має [вертикальне масштабування Podʼа на місці](/docs/concepts/workloads/autoscaling/#in-place-resizing) увімкнено ([функціональна можливість](/docs/reference/command-line-tools-reference/feature-gates/) з назвою `InPlacePodVerticalScaling`), тоді kubelet зберігає локальний запис про стан Podʼа.
+Якщо ваш кластер має [вертикальне масштабування Podʼа на місці](/docs/concepts/workloads/autoscaling/#in-place-resizing) увімкнено ([функціональна можливість](/docs/reference/command-line-tools-reference/feature-gates/) з назвою `InPlacePodVerticalScaling`), тоді kubelet зберігає локальний запис про виділені Podʼу ресурси.
 
 Імʼя файлу — `pod_status_manager_state` у базовій теці kubelet (`/var/lib/kubelet` стандартно в Linux; налаштовується за допомогою `--root-dir`).
 

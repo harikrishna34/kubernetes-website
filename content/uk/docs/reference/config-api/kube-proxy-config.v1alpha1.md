@@ -9,9 +9,235 @@ auto_generated: false
 
 - [KubeProxyConfiguration](#kubeproxy-config-k8s-io-v1alpha1-KubeProxyConfiguration)
 
+## `FormatOptions` {#FormatOptions}
+
+**Зʼявляється в:**
+
+- [LoggingConfiguration](#LoggingConfiguration)
+
+FormatOptions містить опції для різних форматів журналювання.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>text</code> <b>[Обовʼязково]</b><br/>
+                <a href="#TextOptions"><code>TextOptions</code></a>
+            </td>
+            <td><p>[Alpha] Текст містить опції для формату логування &quot;текст&quot;. Доступно лише тоді, коли увімкнено функцію LoggingAlphaOptions.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>json</code> <b>[Обовʼязково]</b><br/>
+                <a href="#JSONOptions"><code>JSONOptions</code></a>
+            </td>
+            <td><p>[Alpha] JSON містить опції для формату логування &quot;json&quot;. Доступно лише тоді, коли увімкнено функцію LoggingAlphaOptions.</p></td>
+        </tr>
+    </tbody>
+</table>
+
+## `JSONOptions` {#JSONOptions}
+
+**Зʼявляється в:**
+
+- [FormatOptions](#FormatOptions)
+
+JSONOptions містить опції для формату логування &quot;json&quot;.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>OutputRoutingOptions</code> <b>[Обовʼязково]</b><br/>
+                <a href="#OutputRoutingOptions"><code>OutputRoutingOptions</code></a>
+            </td>
+            <td>(Члени <code>OutputRoutingOptions</code> вбудовуються у цей тип.) <span class="text-muted">Немає опису.</span></td>
+        </tr>
+    </tbody>
+</table>
+
+## `LogFormatFactory` {#LogFormatFactory}
+
+LogFormatFactory надає підтримку певного додаткового, не стандартного формату журналу.
+
+## `LoggingConfiguration` {#LoggingConfiguration}
+
+**Зʼявляється в:**
+
+- [KubeProxyConfiguration](#kubeproxy-config-k8s-io-v1alpha1-KubeProxyConfiguration)
+
+- [KubeletConfiguration](#kubelet-config-k8s-io-v1beta1-KubeletConfiguration)
+
+LoggingConfiguration містить параметри ведення журналу.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>format</code> <b>[Обовʼязково]</b><br/>
+                <code>string</code>
+            </td>
+            <td><p>Прапорець формату визначає структуру повідомлень журналу. Стандартне значення формату — <code>text</code>.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>flushFrequency</code> <b>[Обовʼязково]</b><br/>
+                <a href="#TimeOrMetaDuration"><code>TimeOrMetaDuration</code></a>
+            </td>
+            <td><p>Максимальний проміжок часу між скиданнями журналу. Якщо рядок, розбирається як тривалість (тобто &quot;1s&quot;) Якщо int, максимальна кількість наносекунд (тобто 1s = 1000000000). Ігнорується, якщо вибраний бекенд записує повідомлення журналу без буферизації.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>verbosity</code> <b>[Обовʼязково]</b><br/>
+                <a href="#VerbosityLevel"><code>VerbosityLevel</code></a>
+            </td>
+            <td><p>Докладність — це поріг, який визначає, які повідомлення буде записано до журналу. Стандартно встановлено нульове значення, за якого до журналу записуються лише найважливіші повідомлення. Вищі значення вмикають додаткові повідомлення. Повідомлення про помилки завжди записуються до журналу.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>vmodule</code> <b>[Обовʼязково]</b><br/>
+                <a href="#VModuleConfiguration"><code>VModuleConfiguration</code></a>
+            </td>
+            <td><p>VModule перевизначає поріг докладності для окремих файлів. Підтримується лише для &quot;текстового&quot; формату журналу.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>options</code> <b>[Обовʼязково]</b><br/>
+                <a href="#FormatOptions"><code>FormatOptions</code></a>
+            </td>
+            <td><p>[Alpha] Опції містять додаткові параметри, специфічні для різних форматів журналювання. Використовуються лише параметри для вибраного формату, але всі вони перевіряються. Доступно лише тоді, коли увімкнено функцію LoggingAlphaOptions.</p></td>
+        </tr>
+    </tbody>
+</table>
+
+## `LoggingOptions` {#LoggingOptions}
+
+LoggingOptions можна використовувати з ValidateAndApplyWithOptions для перевизначення певних стандартних налаштувань.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>ErrorStream</code> <b>[Обовʼязково]</b><br/>
+                <a href="https://pkg.go.dev/io#Writer"><code>io.Writer</code></a>
+            </td>
+            <td><p>ErrorStream можна використовувати для заміни стандартного os.Stderr.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>InfoStream</code> <b>[Обовʼязково]</b><br/>
+                <a href="https://pkg.go.dev/io#Writer"><code>io.Writer</code></a>
+            </td>
+            <td><p>InfoStream можна використовувати для заміни стандартного os.Stdout.</p></td>
+        </tr>
+    </tbody>
+</table>
+
+## `OutputRoutingOptions`{#OutputRoutingOptions}
+
+**Зʼявляється в:**
+
+- [JSONOptions](#JSONOptions)
+
+- [TextOptions](#TextOptions)
+
+OutputRoutingOptions містить опції, які підтримуються як &quot;text&quot;, так і &quot;json&quot;.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>splitStream</code> <b>[Обовʼязково]</b><br/>
+                <code>bool</code>
+            </td>
+            <td><p>[Alpha] SplitStream перенаправляє повідомлення про помилки до stderr, а інформаційні повідомлення — до stdout, з буферизацією. Стандартно, обидва потоки записуються у stdout без буферизації. Доступно лише за умови увімкнення функції LoggingAlphaOptions.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>infoBufferSize</code> <b>[Обовʼязково]</b><br/>
+                <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/api/resource#QuantityValue"><code>k8s.io/apimachinery/pkg/api/resource.QuantityValue</code></a></td>
+            <td><p>[Alpha] InfoBufferSize задає розмір інформаційного потоку при використанні розділених потоків. Стандартно дорівнює нулю, що вимикає буферизацію. Доступно лише за умови увімкнення функції LoggingAlphaOptions.</p></td>
+        </tr>
+    </tbody>
+</table>
+
+## `TextOptions` {#TextOptions}
+
+**Зʼявляється в:**
+
+- [FormatOptions](#FormatOptions)
+
+TextOptions містить опції для формату журналу &quot;text&quot;.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>OutputRoutingOptions</code> <b>[Обовʼязково]</b><br/>
+                <a href="#OutputRoutingOptions"><code>OutputRoutingOptions</code></a>
+            </td>
+            <td>(Члени <code>OutputRoutingOptions</code> вбудовуються у цей тип.) <span class="text-muted">Опис не надається</span></td>
+        </tr>
+    </tbody>
+</table>
+
+## `TimeOrMetaDuration` {#TimeOrMetaDuration}
+
+**Зʼявляється в:**
+
+- [LoggingConfiguration](#LoggingConfiguration)
+
+TimeOrMetaDuration присутня лише для зворотної сумісності для поля flushFrequency, а для нових полів слід використовувати metav1.Duration.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>Duration</code> <b>[Обовʼязково]</b><br/>
+                <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
+            </td>
+            <td><p>Duration містить тривалість</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>-</code> <b>[Обовʼязково]</b><br/>
+                <code>bool</code>
+            </td>
+            <td><p>SerializeAsString контролює, чи буде значення серіалізовано як рядок або ціле число</p></td>
+        </tr>
+    </tbody>
+</table>
+
+## `VModuleConfiguration` {#VModuleConfiguration}
+
+(Аліас до `[]k8s.io/component-base/logs/api/v1.VModuleItem`)
+
+**Зʼявляється в:**
+
+- [LoggingConfiguration](#LoggingConfiguration)
+
+VModuleConfiguration — це набір окремих імен файлів або шаблонів і відповідний поріг докладності.
+
+## `VerbosityLevel` {#VerbosityLevel}
+
+(Аліас до `uint32`)
+
+**Зʼявляється в:**
+
+- [LoggingConfiguration](#LoggingConfiguration)
+
+VerbosityLevel представляє поріг докладності у klog або logr.
+
 ## `ClientConnectionConfiguration` {#ClientConnectionConfiguration}
 
-**Appears in:**
+**Зʼявляється в:**
 
 - [KubeProxyConfiguration](#kubeproxy-config-k8s-io-v1alpha1-KubeProxyConfiguration)
 
@@ -79,7 +305,7 @@ ClientConnectionConfiguration містить деталі для створен�
 
 ## `DebuggingConfiguration` {#DebuggingConfiguration}
 
-**Appears in:**
+**Зʼявляється в:**
 
 - [KubeSchedulerConfiguration](#kubescheduler-config-k8s-io-v1-KubeSchedulerConfiguration)
 
@@ -118,7 +344,7 @@ DebuggingConfiguration містить конфігурацію для функц
 
 ## `LeaderElectionConfiguration` {#LeaderElectionConfiguration}
 
-**Appears in:**
+**Зʼявляється в:**
 
 - [KubeSchedulerConfiguration](#kubescheduler-config-k8s-io-v1-KubeSchedulerConfiguration)
 
@@ -848,7 +1074,7 @@ Kubernetes proxy server.
 </table>
 
 ## `LocalMode` {#kubeproxy-config-k8s-io-v1alpha1-LocalMode}
-    
+
 (Аліас для `string`)
 
 **Зʼявляється у:**
@@ -858,7 +1084,7 @@ Kubernetes proxy server.
 LocalMode представляє режими для визначення локального трафіку з вузла.
 
 ## `ProxyMode` {#kubeproxy-config-k8s-io-v1alpha1-ProxyMode}
-    
+
 (Аліас для `string`)
 
 **Зʼявляється у:**

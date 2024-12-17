@@ -77,3 +77,32 @@ Kubelet API    | Ресурс  | Субресурс
 * verb=\*, resource=nodes, subresource=log
 * verb=\*, resource=nodes, subresource=spec
 * verb=\*, resource=nodes, subresource=metrics
+
+### Детальна авторизація {#fine-grained-authorization}
+
+{{< feature-state feature_gate_name="KubeletFineGrainedAuthz" >}}
+
+Коли увімкнено функціональну можливість `KubeletFineGrainedAuthz`, kubelet виконує детальну перевірку перед поверненням до підресурсу `proxy` для кінцевих точок `/pods`, `/runningPods`, `/configz` та `/healthz`. Ресурс і підресурс визначаються за шляхом вхідного запиту:
+
+Kubelet API   | ресурс   | підресурс
+--------------|----------|------------
+/stats/\*     | nodes    | stats
+/metrics/\*   | nodes    | metrics
+/logs/\*      | nodes    | log
+/spec/\*      | nodes    | spec
+/pods         | nodes    | pods, proxy
+/runningPods/ | nodes    | pods, proxy
+/healthz      | nodes    | healthz, proxy
+/configz      | nodes    | configz, proxy
+*all others*  | nodes    | proxy
+
+Коли функціональну можливість `KubeletFineGrainedAuthz` увімкнено, переконайтеся, що користувач, ідентифікований прапорцями `--kubelet-client-certificate` та `--kubelet-client-key`, переданими серверу API, є авторизованим для наступних атрибутів:
+
+* verb=\*, resource=nodes, subresource=proxy
+* verb=\*, resource=nodes, subresource=stats
+* verb=\*, resource=nodes, subresource=log
+* verb=\*, resource=nodes, subresource=spec
+* verb=\*, resource=nodes, subresource=metrics
+* verb=\*, resource=nodes, subresource=configz
+* verb=\*, resource=nodes, subresource=healthz
+* verb=\*, resource=nodes, subresource=pods

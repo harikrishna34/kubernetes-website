@@ -31,6 +31,12 @@ Topology Manager надає інтерфейс для компонентів, з
 
 Topology manager отримує інформацію про топологію від _Hint Providers_ у вигляді бітової маски, яка позначає доступні вузли NUMA та попередній показник виділення. Політики Topology Manager виконують набір операцій з наданими підказками та сходяться на підказці, визначеній політикою, щоб дати оптимальний результат, якщо зберігається небажана підказка, бажане поле для підказки буде встановлено у false. У поточних політиках найприйнятніше — це найвужча попередня маска. Обрана підказка зберігається як частина Topology Manager. Залежно від налаштованої політики, Pod може бути прийнятий або відхилений на вузлі на основі обраної підказки. Підказка потім зберігається в Topology Manager для використання _Hint Providers_ під час прийняття рішень про розподіл ресурсів.
 
+## Підтримка Windows {#windows-support}
+
+{{< feature-state feature_gate_name="WindowsCPUAndMemoryAffinity" >}}
+
+Підтримку Topology Manager можна увімкнути у Windows за допомогою функціональної можливості `WindowsCPUAndMemoryAffinity`, і вона потребує підтримки під час виконання контейнера.
+
 ## Scope та Policy в Topology Manager {#topology-manager-scopes-and-policies}
 
 Topology Manager наразі:
@@ -133,7 +139,7 @@ _Hint Providers_ можуть використовувати цю інформа
 
 ## Параметри політики керування топологією {#topology-manager-policy-options}
 
-Підтримка параметрів політики керування топологією вимагає активації [функціональної можливоітсі](/docs/reference/command-line-tools-reference/feature-gates/) `TopologyManagerPolicyOptions`, щоб бути ввімкненими (типово увімкнено).
+Підтримка параметрів політики керування топологією вимагає активації [функціональної можливості](/docs/reference/command-line-tools-reference/feature-gates/) `TopologyManagerPolicyOptions`, щоб бути ввімкненими (типово увімкнено).
 
 Ви можете увімкнути та вимкнути групи параметрів на основі їхнього рівня зрілості за допомогою наступних feature gate:
 
@@ -142,9 +148,9 @@ _Hint Providers_ можуть використовувати цю інформа
 
 Ви все ще повинні активувати кожний параметр за допомогою опції kubelet `TopologyManagerPolicyOptions`.
 
-### `prefer-closest-numa-nodes` (бета) {#policy-option-prefer-closest-numa-nodes}
+### `prefer-closest-numa-nodes` {#policy-option-prefer-closest-numa-nodes}
 
-Опція `prefer-closest-numa-nodes` є бета-функцією з версії Kubernetes 1.28. У версії Kubernetes {{< skew currentVersion >}} ця політика стандартно доступна, якщо увімкнено [функціональні можливості](/docs/reference/command-line-tools-reference/feature-gates/) `TopologyManagerPolicyOptions` та `TopologyManagerPolicyBetaOptions`.
+Опція `prefer-closest-numa-nodes` є загально доступною з версії Kubernetes 1.32. У версії Kubernetes {{< skew currentVersion >}} ця політика стандартно доступна, якщо увімкнено [функціональні можливості](/docs/reference/command-line-tools-reference/feature-gates/) `TopologyManagerPolicyOptions` та `TopologyManagerPolicyBetaOptions`.
 
 Типово менеджер топології не враховує відстані між NUMA вузлами та не бере їх до уваги при прийнятті рішень про допуск Pod. Це обмеження проявляється в системах з кількома сокетами, а також у системах з одним сокетом і кількома NUMA вузлами, і може спричинити значне погіршення продуктивності у виконанні з критичною затримкою та високим пропуском даних, якщо менеджер топології вирішить розмістити ресурси на не сусідніх NUMA вузлах.
 

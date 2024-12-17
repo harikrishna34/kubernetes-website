@@ -92,7 +92,7 @@ no_list: true
 Якщо ви налаштовуєте автентифікацію та авторизацію на своєму промисловому кластері Kubernetes, ось кілька речей, які варто врахувати:
 
 - *Встановлення режиму авторизації*:
-  Коли сервер API Kubernetes ([kube-apiserver](/docs/reference/command-line-tools-reference/kube-apiserver/)) запускається, підтримувані режими автентифікації повинні бути встановлені за допомогою прапорця *--authorization-mode*. Наприклад, цей прапорець у файлі *kube-adminserver.yaml* (в */etc/kubernetes/manifests*) може бути встановлений у значення Node, RBAC. Це дозволить авторизацію Node та RBAC для автентифікованих запитів.
+  Коли сервер API Kubernetes ([kube-apiserver](/docs/reference/command-line-tools-reference/kube-apiserver/)) запускається, підтримувані режими авторизації повинні бути встановлені за допомогою файлу *--authorization-config* або прапорця *--authorization-mode*. Наприклад, цей прапорець у файлі *kube-adminserver.yaml* (в */etc/kubernetes/manifests*) може бути встановлений у значення Node, RBAC. Це дозволить авторизацію Node та RBAC для автентифікованих запитів.
 - *Створення сертифікатів користувача та привʼязка ролей (RBAC)*:
   Якщо ви використовуєте авторизацію RBAC, користувачі можуть створювати CertificateSigningRequest (CSR), які можуть бути підписати CA кластера. Потім ви можете привʼязувати Roles та ClusterRoles до кожного користувача. Дивіться [Запити на підпис сертифікатів](/docs/reference/access-authn-authz/certificate-signing-requests/) для отримання деталей.
 - *Створення політик, що комбінують атрибути (ABAC)*:

@@ -1,9 +1,9 @@
 
-Завантажує конфігурації kubeadm та kubelet  у ConfigMap
+Завантажує конфігурації kubeadm та kubelet у ConfigMap
 
 ### Опис {#synopsis}
 
-Ця команда не призначена для самостійного запуску. Дивіться список доступних субкоманд.
+Завантажує конфігурації kubeadm та kubelet у ConfigMap
 
 ```shell
 kubeadm init phase upload-config [flags]

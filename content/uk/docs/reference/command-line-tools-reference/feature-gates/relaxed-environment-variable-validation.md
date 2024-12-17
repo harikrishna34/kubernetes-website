@@ -9,5 +9,10 @@ stages:
   - stage: alpha
     defaultValue: false
     fromVersion: "1.30"
+    toVersion: "1.31"
+  - stage: beta
+    defaultValue: true
+    fromVersion: "1.32"
 ---
+
 Дозволити майже всі друковані символи ASCII у змінних оточення.

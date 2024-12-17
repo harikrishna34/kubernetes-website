@@ -59,6 +59,7 @@ kubectl patch -n kube-system role 'system::leader-locking-cloud-controller-manag
 kind: LeaderMigrationConfiguration
 apiVersion: controllermanager.config.k8s.io/v1
 leaderName: cloud-provider-extraction-migration
+resourceLock: leases
 controllerLeaders:
   - name: route
     component: kube-controller-manager
@@ -75,6 +76,7 @@ controllerLeaders:
 kind: LeaderMigrationConfiguration
 apiVersion: controllermanager.config.k8s.io/v1
 leaderName: cloud-provider-extraction-migration
+resourceLock: leases
 controllerLeaders:
   - name: route
     component: *
@@ -99,6 +101,7 @@ controllerLeaders:
 kind: LeaderMigrationConfiguration
 apiVersion: controllermanager.config.k8s.io/v1
 leaderName: cloud-provider-extraction-migration
+resourceLock: leases
 controllerLeaders:
   - name: route
     component: cloud-controller-manager
@@ -112,7 +115,7 @@ controllerLeaders:
 
 Створіть новий вузол панелі управління версії N + 1 з оновленим маніфестом `cloud-controller-manager`, та з прапорцем `--cloud-provider`, встановленим на `external` для `kube-controller-manager`. `kube-controller-manager` версії N + 1 НЕ МУСИТЬ мати увімкненої міграції лідера, оскільки, зовнішній хмарний провайдер вже не запускає мігровані контролери, і, отже, він не бере участі в міграції.
 
-Будь ласка, зверніться до [Адміністрування менеджера керування хмарою](/uk/docs/tasks/administer-cluster/running-cloud-controller/) для отримання детальнішої інформації щодо розгортання `cloud-controller-manager`.
+Будь ласка, зверніться до [Адміністрування менеджера керування хмарою](/docs/tasks/administer-cluster/running-cloud-controller/) для отримання детальнішої інформації щодо розгортання `cloud-controller-manager`.
 
 ### Оновлення панелі управління {#update-control-plane}
 
@@ -141,6 +144,7 @@ controllerLeaders:
 kind: LeaderMigrationConfiguration
 apiVersion: controllermanager.config.k8s.io/v1
 leaderName: cloud-provider-extraction-migration
+resourceLock: leases
 controllerLeaders:
   - name: route
     component: *

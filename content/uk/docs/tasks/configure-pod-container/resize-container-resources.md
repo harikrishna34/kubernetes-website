@@ -9,28 +9,32 @@ min-kubernetes-server-version: 1.27
 
 {{< feature-state feature_gate_name="InPlacePodVerticalScaling" >}}
 
-Ця сторінка передбачає, що ви обізнані з [Якістю обслуговування](/uk/docs/tasks/configure-pod-container/quality-service-pod/) для Podʼів Kubernetes.
+Ця сторінка передбачає, що ви обізнані з [Якістю обслуговування](/docs/tasks/configure-pod-container/quality-service-pod/) для Podʼів Kubernetes.
 
 Ця сторінка показує, як змінити обсяги CPU та памʼяті, призначені для контейнерів працюючого Podʼа без перезапуску самого Podʼа або його контейнерів. Вузол Kubernetes виділяє ресурси для Podʼа на основі його `запитів`, і обмежує використання ресурсів Podʼа на основі `лімітів`, вказаних у контейнерах Podʼа.
 
-Зміна розподілу ресурсів для запущеного Podʼа вимагає, що [функціональна можливість](/uk/docs/reference/command-line-tools-reference/feature-gates/) `InPlacePodVerticalScaling` має бути увімкнено. Альтернативою може бути видалення Podʼа і ввімкнення параметра, щоб [workload controller](/uk/docs/concepts/workloads/controllers/) створив новий Pod з іншими вимогами до ресурсів.
+Зміна розподілу ресурсів для запущеного Podʼа вимагає, що [функціональна можливість](/docs/reference/command-line-tools-reference/feature-gates/) `InPlacePodVerticalScaling` має бути увімкнено. Альтернативою може бути видалення Podʼа і ввімкнення параметра, щоб [workload controller](/docs/concepts/workloads/controllers/) створив новий Pod з іншими вимогами до ресурсів.
+
+Запит на зміну розміру виконується через підресурс pod `/resize`, який отримує повністю оновлений pod для запиту на оновлення, або патч на обʼєкті pod для запиту на виправлення.
 
 Для зміни ресурсів Podʼа на місці:
 
-- Ресурси `запитів` та `лімітів` контейнера є _змінними_ для ресурсів CPU та памʼяті.
-- Поле `allocatedResources` у `containerStatuses` статусу Podʼа відображає ресурси, виділені контейнерам Podʼа.
-- Поле `resources` у `containerStatuses` статусу Podʼа відображає фактичні ресурси `запитів` та `лімітів`, які налаштовані на запущених контейнерах відповідно до звіту контейнерного середовища.
+- Ресурси `запитів` та `лімітів` контейнера є _змінними_ для ресурсів CPU та памʼяті. Ці поля представляють _бажані_ ресурси для контейнера.
+- Поле `resources` у `containerStatuses` статусу Podʼа відображає фактичні ресурси `requests` та `limits`, які _виділені_ для контейнерів podʼів. Для запущених контейнерів це відображає фактичні ресурси `requests` і `limits` контейнерів, це ресурси, виділені для контейнера під час його запуску. Для не запущених контейнерів це ресурси, виділені для контейнера під час його запуску.
 - Поле `resize` у статусі Podʼа показує статус останнього запиту очікуваної зміни розміру. Воно може мати наступні значення:
-  - `Proposed`: Це значення показує, що було отримано підтвердження запиту на зміну розміру та що запит був перевірений та зареєстрований.
+  - `Proposed`: Це значення вказує на те, що розмір podʼа було змінено, але Kubelet ще не обробив зміну розміру.
   - `InProgress`: Це значення вказує, що вузол прийняв запит на зміну розміру та знаходиться у процесі застосування його до контейнерів Podʼа.
-  - `Deferred`: Це значення означає, що запитаної зміни розміру наразі не можна виконати, і вузол буде спробувати її виконати пізніше. Зміна розміру може бути виконана, коли інші Podʼи покинуть і звільнять ресурси вузла.
+  - `Deferred`: Це значення означає, що запитаної зміни розміру наразі не можна виконати, і вузол буде спробувати її виконати пізніше. Зміна розміру може бути виконана, коли інші Podʼи будуть вилучені та звільнять ресурси вузла.
   - `Infeasible`: це сигнал того, що вузол не може задовольнити запит на зміну розміру. Це може статися, якщо запит на зміну розміру перевищує максимальні ресурси, які вузол може виділити для Podʼа.
+  - `""`: Порожнє або не встановлене значення вказує на те, що останню зміну розміру завершено. Це має відбуватися лише у випадку, якщо ресурси у специфікації контейнера збігаються з ресурсами у статусі контейнера.
+
+Якщо у вузлі є контейнери з незавершеною зміною розміру, планувальник буде обчислювати запити на контейнери на основі максимальних запитів на бажані ресурси контейнера, і це будуть фактичні запити, про які повідомляється у статусі.
 
 ## {{% heading "prerequisites" %}}
 
 {{< include "task-tutorial-prereqs.md" >}} {{< version-check >}}
 
-Має бути увімкнено [функціональну можливість](/uk/docs/reference/command-line-tools-reference/feature-gates/) `InPlacePodVerticalScaling` для вашої панелі управління і для всіх вузлів вашого кластера.
+Має бути увімкнено [функціональну можливість](/docs/reference/command-line-tools-reference/feature-gates/) `InPlacePodVerticalScaling` для вашої панелі управління і для всіх вузлів вашого кластера.
 
 ## Політики зміни розміру контейнера {#container-resize-policies}
 
@@ -79,9 +83,20 @@ spec:
 
 <!-- steps -->
 
+## Обмеження {#limitations}
+
+Зміна розміру ресурсів на місці наразі має наступні обмеження:
+
+- Можна змінити лише ресурси процесора та памʼяті.
+- Клас QoS не може бути змінений. Це означає, що запити повинні продовжувати дорівнювати лімітам для Guaranteed podʼам, Burstable podʼам не можуть встановлювати запити і ліміти рівними для CPU і памʼяті, і ви не можете додавати вимоги до ресурсів для Best Effort podʼів.
+- Init-контейнери та Ефемерні контейнери не можуть бути змінені за розміром.
+- Вимоги до ресурсів та ліміти не можна видалити після встановлення.
+- Ліміт памʼяті контейнера не може бути зменшений нижче рівня його використання. Якщо запит переводить контейнер у цей стан, статус зміни розміру залишатиметься у стані `InProgress` доти, доки бажаний ліміт памʼяті не стане можливим.
+- Розмір Windows-podʼів не може бути змінений.
+
 ## Створення Podʼа із запитами та лімітами ресурсів {#create-pod-with-resource-requests-and-limits}
 
-Ви можете створити Guaranteed або Burstable [клас якості обслуговування](/uk/docs/tasks/configure-pod-container/quality-service-pod/) Podʼу, вказавши запити та/або ліміти для контейнерів Podʼа.
+Ви можете створити Guaranteed або Burstable [клас якості обслуговування](/docs/tasks/configure-pod-container/quality-service-pod/) Podʼу, вказавши запити та/або ліміти для контейнерів Podʼа.
 
 Розгляньте наступний маніфест для Podʼа, який має один контейнер.
 
@@ -126,9 +141,6 @@ spec:
     name: qos-demo-ctr-5
     ready: true
 ...
-    allocatedResources:
-      cpu: 700m
-      memory: 200Mi
     resources:
       limits:
         cpu: 700m
@@ -153,7 +165,7 @@ spec:
 Тепер відредагуйте контейнер Podʼа, встановивши як запити, так і ліміти CPU на `800m`:
 
 ```shell
-kubectl -n qos-example patch pod qos-demo-5 --patch '{"spec":{"containers":[{"name":"qos-demo-ctr-5", "resources":{"requests":{"cpu":"800m"}, "limits":{"cpu":"800m"}}}]}}'
+kubectl -n qos-example patch pod qos-demo-5 --subresource resize --patch '{"spec":{"containers":[{"name":"qos-demo-ctr-5", "resources":{"requests":{"cpu":"800m"}, "limits":{"cpu":"800m"}}}]}}'
 ```
 
 Отримайте докладну інформацію про Pod після внесення змін.
@@ -178,9 +190,6 @@ spec:
 ...
   containerStatuses:
 ...
-    allocatedResources:
-      cpu: 800m
-      memory: 200Mi
     resources:
       limits:
         cpu: 800m
@@ -192,9 +201,7 @@ spec:
     started: true
 ```
 
-Зверніть увагу, що значення `allocatedResources` були оновлені, щоб відображати нові бажані запити CPU. Це вказує на те, що вузол зміг забезпечити потреби у збільшених ресурсах CPU.
-
-У статусі контейнера оновлені значення ресурсів CPU показують, що нові CPU ресурси були застосовані. Значення `restartCount` контейнера залишається без змін, що вказує на те, що ресурси CPU контейнера були змінені без перезапуску контейнера.
+Зверніть увагу, що `resources` у `containerStatuses` було оновлено, щоб відобразити нові бажані запити на CPU. Це вказує на те, що вузол зміг задовольнити збільшені потреби у ресурсах CPU, і нові ресурси CPU було застосовано. Параметр `restartCount` контейнера залишився незмінним, що вказує на те, що розмір ресурсів CPU контейнера було змінено без перезапуску контейнера.
 
 ## Очищення {#clean-up}
 
@@ -208,18 +215,20 @@ kubectl delete namespace qos-example
 
 ### Для розробників застосунків {#for-app-developers}
 
-- [Призначення ресурсів памʼяті для контейнерів та Podʼів](/uk/docs/tasks/configure-pod-container/assign-memory-resource/)
+- [Призначення ресурсів памʼяті для контейнерів та Podʼів](/docs/tasks/configure-pod-container/assign-memory-resource/)
 
-- [Призначення ресурсів CPU для контейнерів та Podʼів](/uk/docs/tasks/configure-pod-container/assign-cpu-resource/)
+- [Призначення ресурсів CPU для контейнерів та Podʼів](/docs/tasks/configure-pod-container/assign-cpu-resource/)
+
+- [Призначення ресурсів CPU та памʼяті на рівні Podʼів](/docs/tasks/configure-pod-container/assign-pod-level-resources/)
 
 ### Для адміністраторів кластерів {#for-cluster-administrators}
 
-- [Налаштування стандартних запитів та лімітів памʼяті для простору імен](/uk/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/)
+- [Налаштування стандартних запитів та лімітів памʼяті для простору імен](/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/)
 
-- [Налаштування стандартних запитів та лімітів CPU для простору імен](/uk/docs/tasks/administer-cluster/manage-resources/cpu-default-namespace/)
+- [Налаштування стандартних запитів та лімітів CPU для простору імен](/docs/tasks/administer-cluster/manage-resources/cpu-default-namespace/)
 
-- [Налаштування мінімальних та максимальних лімітів памʼяті для простору імен](/uk/docs/tasks/administer-cluster/manage-resources/memory-constraint-namespace/)
+- [Налаштування мінімальних та максимальних лімітів памʼяті для простору імен](/docs/tasks/administer-cluster/manage-resources/memory-constraint-namespace/)
 
-- [Налаштування мінімальних та максимальних лімітів CPU для простору імен](/uk/docs/tasks/administer-cluster/manage-resources/cpu-constraint-namespace/)
+- [Налаштування мінімальних та максимальних лімітів CPU для простору імен](/docs/tasks/administer-cluster/manage-resources/cpu-constraint-namespace/)
 
-- [Налаштування квот памʼяті та CPU для простору імен](/uk/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/)
+- [Налаштування квот памʼяті та CPU для простору імен](/docs/tasks/administer-cluster/manage-resources/quota-memory-cpu-namespace/)

@@ -145,16 +145,10 @@ kubectl edit cm -n kube-system kube-proxy
 
 Після оновлення ConfigMap `kube-proxy`, ви можете перезапустити всі Podʼи kube-proxy:
 
-Отримайте імена Podʼів:
+Видаліть Podʼи за допомогою:
 
 ```shell
-kubectl get po -n kube-system | grep kube-proxy
-```
-
-Видаліть Pod за допомогою:
-
-```shell
-kubectl delete po -n kube-system <імʼя-поду>
+kubectl delete po -n kube-system -l k8s-app=kube-proxy
 ```
 
 Створюватимуться нові Podʼи, які використовують оновлений ConfigMap.

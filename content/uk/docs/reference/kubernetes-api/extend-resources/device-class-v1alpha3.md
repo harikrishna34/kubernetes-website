@@ -215,7 +215,7 @@ DeviceClassList — це колекція класів.
 
 - **items** ([]<a href="{{< ref "../extend-resources/device-class-v1alpha3#DeviceClass" >}}">DeviceClass</a>), обовʼязково
 
-  Items —список класів ресурсів.
+  Items — список класів ресурсів.
 
 ## Operations {#Operations}
 

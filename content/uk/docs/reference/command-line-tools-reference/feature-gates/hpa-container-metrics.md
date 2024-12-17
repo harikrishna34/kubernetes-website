@@ -17,5 +17,9 @@ stages:
   - stage: stable
     defaultValue: true
     fromVersion: "1.30"
+    toVersion: "1.31"
+
+removed: true
 ---
+
 Дозволяє {{< glossary_tooltip text="HorizontalPodAutoscalers" term_id="horizontal-pod-autoscaler" >}} виконувати масштабування на основі метрик з окремих контейнерів у межах цільових Podʼів.

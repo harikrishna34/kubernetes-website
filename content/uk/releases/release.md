@@ -2,16 +2,15 @@
 title: Цикл випуску Kubernetes
 type: docs
 auto_generated: false
-
 ---
 
-<!-- ОРИГІНАЛЬНИЙ КОНТЕНТ ГЕНЕРУЄТЬСЯ АВТОМАТИЧНО за допомогою ./scripts/releng/update-release-info.sh у репозиторії kubernetes/website -->
+<!-- ОРИГІНАЛЬНИЙ КОНТЕНТ ГЕНЕРУЄТЬСЯ АВТОМАТИЧНО за допомогою https://github.com/kubernetes/website/blob/main/scripts/releng/update-release-info.sh -->
 
-{{< warning >}}
+{{% pageinfo color="light" %}}
 Англійська версія цього контенту генерується автоматично, і посилання можуть не працювати. Джерело документа знаходиться [тут](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-release/release.md).
-{{< /warning >}}
+{{% /pageinfo %}}
 
-# Орієнтація на поліпшення, Тікети та PR для віх випуску {#targeting-enhancements-issues-and-prs-for-release-milestones}
+## Орієнтація на поліпшення, Тікети та PR для віх випуску {#targeting-enhancements-issues-and-prs-for-release-milestones}
 
 Цей документ орієнтований на розробників та учасників Kubernetes, які повинні створювати поліпшення, тікети або pull request (PR), що спрямовані на конкретну віху випуску.
 

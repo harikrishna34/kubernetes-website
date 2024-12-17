@@ -348,13 +348,6 @@ kubectl [flags]
             <td></td><td style="line-height: 130%; word-wrap: break-word;">Якщо встановлено false, вимикає додаткові HTTP заголовки, що деталізують виконану команду kubectl (версія Kubernetes v1.22 або пізніше)</td>
         </tr>
         <tr>
-            <td colspan="2">KUBECTL_DEBUG_CUSTOM_PROFILE</td>
-        </tr>
-        <tr>
-            <td></td><td style="line-height: 130%; word-wrap: break-word;">Якщо встановлено true, у kubectl debug буде активовано спеціальний прапорець. Цей прапорець використовується для налаштування заздалегідь визначених профілів.
-        </td>
-        </tr>
-        <tr>
             <td colspan="2">KUBECTL_EXPLAIN_OPENAPIV3</td>
         </tr>
         <tr>

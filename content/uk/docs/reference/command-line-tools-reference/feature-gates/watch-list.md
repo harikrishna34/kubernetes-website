@@ -6,9 +6,13 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: alpha
     defaultValue: false
     fromVersion: "1.27"
+    toVersion: "1.31"
+  - stage: beta
+    defaultValue: true
+    fromVersion: "1.32"
 ---
 
-Вмикання підтримки [потокового передавання початкового стану обʼєктів у запитах на спостереження](/uk/docs/reference/using-api/api-concepts/#streaming-lists).
+Вмикання підтримки [потокового передавання початкового стану обʼєктів у запитах на спостереження](/docs/reference/using-api/api-concepts/#streaming-lists).

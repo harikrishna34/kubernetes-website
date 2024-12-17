@@ -5,6 +5,22 @@
 
 Оновлює кластер Kubernetes до вказаної версії.
 
+Команда "apply [version]" виконує наступні етапи:
+
+```text
+preflight        Виконання перевірок перед запуском
+control-plane    Оновлення панелі управління
+upload-config    Завантаження конфігурації kubeadm та kubelet у ConfigMapі
+  /kubeadm         Завантаження конфігурації кластера kubeadm у ConfigMap
+  /kubelet         Завантаження конфігурації компоненту kubelet у ConfigMap
+kubelet-config   Оновлення конфігурації kubelet для цього вузла
+bootstrap-token  Налаштування токену bootstrap та правил cluster-info RBAC
+addon            Оновлення типових надбудов kubeadm
+  /coredns         Оновлення надбудови CoreDNS
+  /kube-proxy      Оновлення надбудови kube-proxy
+post-upgrade     Запуск завдань після оновлення
+```
+
 ```shell
 kubeadm upgrade apply [version]
 ```
@@ -100,6 +116,13 @@ kubeadm upgrade apply [version]
         <tr>
             <td></td>
             <td style="line-height: 130%; word-wrap: break-word;"><p>Вказує, чи потрібно надрукувати файл конфігурації, який буде використаний під час оновлення.</p></td>
+        </tr>
+        <tr>
+            <td colspan="2">--skip-phases strings</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Список етапів, які потрібно оминути</p></td>
         </tr>
         <tr>
             <td colspan="2">-y, --yes</td>

@@ -35,9 +35,9 @@ Kubernetes покладається на активне переписуванн
     - secrets
     providers:
     - aescbc:
-      keys:
-      - name: key1
-        secret: c2VjcmV0IGlzIHNlY3VyZQ==
+        keys:
+        - name: key1
+          secret: c2VjcmV0IGlzIHNlY3VyZQ==
   ```
 
   Переконайтеся, що автоматичне перезавантаження конфігурації шифрування встановлено на значення true, встановивши `--encryption-provider-config-automatic-reload`.
@@ -60,13 +60,13 @@ Kubernetes покладається на активне переписуванн
     - secrets
     providers:
     - aescbc:
-      keys:
-      - name: key2
-        secret: c2VjcmV0IGlzIHNlY3VyZSwgaXMgaXQ/
+        keys:
+        - name: key2
+          secret: c2VjcmV0IGlzIHNlY3VyZSwgaXMgaXQ/
     - aescbc:
-      keys:
-      - name: key1
-        secret: c2VjcmV0IGlzIHNlY3VyZQ==
+        keys:
+        - name: key1
+          secret: c2VjcmV0IGlzIHNlY3VyZQ==
   ```
 
 - Щоб переконатися, що раніше створений секрет `my-secret` зашифровано новим ключем `key2`, ви будете використовувати _Storage Version Migration_.

@@ -6,9 +6,11 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: alpha
     defaultValue: false
     fromVersion: "1.30"
 ---
 
-У Kubernetes {{< skew currentVersion >}} цей елемент не має ефекту. У майбутньому випуску Kubernetes цей елемент може бути використано для увімкнення MutatingAdmissionPolicy у ланцюжку допусків.
+Вмикає підтримку [MutatingAdmissionPolicy](/docs/reference/access-authn-authz/mutating-admission-policy/) для використання мутацій [CEL](/docs/reference/using-api/cel/) у контролі допуску.
+
+У версіях Kubernetes v1.30 та v1.31 ця функціональна можливість існувала, але не мала жодного ефекту.

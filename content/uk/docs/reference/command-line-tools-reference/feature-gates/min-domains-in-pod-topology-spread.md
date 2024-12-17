@@ -6,7 +6,7 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: alpha
     defaultValue: false
     fromVersion: "1.24"
     toVersion: "1.24"
@@ -21,5 +21,9 @@ stages:
   - stage: stable
     defaultValue: true
     fromVersion: "1.30"
+    toVersion: "1.31"
+
+removed: true
 ---
-Вмикає `minDomains` в [Обмеженнях поширення топології Pod](/uk/docs/concepts/scheduling-eviction/topology-spread-constraints/).
+
+Вмикає `minDomains` в [Обмеженнях поширення топології Pod](/docs/concepts/scheduling-eviction/topology-spread-constraints/).

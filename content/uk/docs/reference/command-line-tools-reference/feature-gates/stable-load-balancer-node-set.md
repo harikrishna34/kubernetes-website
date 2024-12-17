@@ -13,5 +13,9 @@ stages:
   - stage: stable
     defaultValue: true
     fromVersion: "1.30"
+    toVersion: "1.31"
+
+removed: true
 ---
+
 Дозволяє зменшити кількість переконфігурацій балансувальника навантаження контролером послуг (KCCM) внаслідок зміни стану вузла.

@@ -26,7 +26,7 @@ weight: 40
 
 Цей хук викликається негайно перед тим, як контейнер буде завершено через запит API або подію управління, таку як невдача проби на живучість/запуску, передумови, конфлікт ресурсів та інші. Звернення до хука `PreStop` не вдасться, якщо контейнер вже перебуває у стані завершення або виконання, і хук повинен завершити виконання до того, як може бути відправлений сигнал TERM для зупинки контейнера. Відлік пільгового періоду припинення Pod починається до виконання хуку `PreStop`, тому, незалежно від результату обробника, контейнер врешті-решт закінчиться протягом пільгового періоду припинення Pod. Жодні параметри не передаються обробнику.
 
-Докладний опис поведінки припинення роботи Podʼів можна знайти в [Припинення роботи Podʼа](/uk/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination).
+Докладний опис поведінки припинення роботи Podʼів можна знайти в [Припинення роботи Podʼа](/docs/concepts/workloads/pods/pod-lifecycle/#pod-termination).
 
 ### Реалізації обробника хуків {#hook-handler-implementations}
 
@@ -34,7 +34,11 @@ weight: 40
 
 * Exec — Виконує конкретну команду, таку як `pre-stop.sh`, всередині cgroups та namespaces контейнера. Ресурси, спожиті командою, зараховуються на рахунок контейнера.
 * HTTP — Виконує HTTP-запит до конкретного endpoint в контейнері.
-* Sleep — Призупиняє контейнер на вказаний час. Обробник "Sleep" є функцією бета-рівня типово увімкненою через [функціональну можливість](/uk/docs/reference/command-line-tools-reference/feature-gates/) `PodLifecycleSleepAction`.
+* Sleep — Призупиняє контейнер на вказаний час. Обробник "Sleep" є функцією бета-рівня типово увімкненою через [функціональну можливість](/docs/reference/command-line-tools-reference/feature-gates/) `PodLifecycleSleepAction`.
+
+{{< note >}}
+Увімкніть функціональну можливість `PodLifecycleSleepActionAllowZero`, якщо ви хочете встановити тривалість сплячого режиму у нуль секунд (фактично бездіяльність) для ваших хуків життєвого циклу Sleep.
+{{< /note >}}
 
 ### Виконання обробника хука {#hook-handler-execution}
 
@@ -65,7 +69,7 @@ Events:
   Normal   Scheduled            7s               default-scheduler  Successfully assigned default/lifecycle-demo to ip-XXX-XXX-XX-XX.us-east-2...
   Normal   Pulled               6s               kubelet            Successfully pulled image "nginx" in 229.604315ms
   Normal   Pulling              4s (x2 over 6s)  kubelet            Pulling image "nginx"
- 
+
 
  Normal   Created              4s (x2 over 5s)  kubelet            Created container lifecycle-demo-container
   Normal   Started              4s (x2 over 5s)  kubelet            Started container lifecycle-demo-container
@@ -77,5 +81,5 @@ Events:
 
 ## {{% heading "whatsnext" %}}
 
-* Дізнайтеся більше про [Середовище контейнера](/uk/docs/concepts/containers/container-environment/).
-* Отримайте практичний досвід, [прикріплюючи обробників до подій життєвого циклу контейнера](/uk/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/).
+* Дізнайтеся більше про [Середовище контейнера](/docs/concepts/containers/container-environment/).
+* Отримайте практичний досвід, [прикріплюючи обробників до подій життєвого циклу контейнера](/docs/tasks/configure-pod-container/attach-handler-lifecycle-event/).

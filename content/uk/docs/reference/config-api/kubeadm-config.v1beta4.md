@@ -11,16 +11,15 @@ auto_generated: false
 
 Список змін з версії v1beta3:
 
-- TODO https://github.com/kubernetes/kubeadm/issues/2890
 - Підтримуйте власні змінні оточення у компонентах панелі управління у розділі ClusterConfiguration. Використовуйте `apiServer.extraEnvs`, `controllerManager.extraEnvs`, `scheduler.extraEnvs`, `etcd.local.extraEnvs`.
 - Тип API `ResetConfiguration` тепер підтримується у v1beta4. Користувачі можуть скинути конфігурацію вузла, передавши kubeadm reset файл `--config`.
-- режим `dry-run` тепер налаштовується у InitConfiguration та JoinConfiguration.
+- режим `dry-run` тепер налаштовується у `InitConfiguration` та `JoinConfiguration`.
 - Замінено існуючі map додаткових аргументів типу рядок/рядок на структуровані додаткові аргументи, які підтримують дублікати. Зміни застосовано до `ClusterConfiguration` — `apiServer.extraArgs`, `controllerManager.extraArgs`, `scheduler.extraArgs`, `etcd.local.extraArgs`. Також до `nodeRegistration.kubeletExtraArgs`.
 - Додано `ClusterConfiguration.encryptionAlgorithm`, за допомогою якого можна задати алгоритм асиметричного шифрування, що використовується для ключів і сертифікатів цього кластера. Може бути один з "RSA-2048" (стандартно), "RSA-3072", "RSA-4096" або "ECDSA-P256".
-- Додано `ClusterConfiguration.dns.disabled` та `ClusterConfiguration.proxy.disabled`, за допомогою яких можна вимкнути надбудови CoreDNS та kube-proxy під час ініціалізації кластера. Якщо пропустити повʼязані з ними етапи під час створення кластера, ці ж поля буде встановлено у значення `false`.
+- Додано `ClusterConfiguration.dns.disabled` та `ClusterConfiguration.proxy.disabled`, за допомогою яких можна вимкнути надбудови CoreDNS та kube-proxy під час ініціалізації кластера. Якщо пропустити повʼязані з ними етапи під час створення кластера, ці ж поля буде встановлено у значення `true`.
 - Додано поле `nodeRegistration.imagePullSerial` у `InitConfiguration` та `JoinConfiguration`, за допомогою якого можна контролювати, чи kubeadm витягує образи послідовно або паралельно.
 - API kubeadm `UpgradeConfiguration` тепер підтримується у v1beta4 при передачі `--config` до команд `kubeadm upgrade`. Використання конфігурації компонентів для `kubelet` та `kube-proxy`, `InitConfiguration` та `ClusterConfiguration` є застарілим і буде проігноровано при передачі `--config` до команд `upgrade`.
-- Додано структуру `Timeouts` до `InitConfiguration`, `JoinConfiguration`, `ResetConfiguration` та `UpgradeConfiguration`, яку можна використовувати для налаштування різних тайм-аутів.
+- Додано структуру `Timeouts` до `InitConfiguration`, `JoinConfiguration`, `ResetConfiguration` та `UpgradeConfiguration`, яку можна використовувати для налаштування різних тайм-аутів. Поле `ClusterConfiguration.timeoutForControlPlane` замінено на `Timeouts.controlPlaneComponentHealthCheck`. Поле `JoinConfiguration.discovery.timeout` замінено на `timeouts.Discovery`.
 - Додано поля `certificateValidityPeriod` та `caCertificateValidityPeriod` до `ClusterConfiguration`. Ці поля можна використовувати для контролю терміну дії сертифікатів, згенерованих kubeadm під час виконання таких підкоманд, як `init`, `join`, `upgrade` і `certs`. Стандартні значення залишаються 1 рік для сертифікатів без CA і 10 років для сертифікатів з CA. Лише сертифікати без CA можна поновлювати командою `kubeadm certs renew`.
 
 <h1>Міграція зі старих версій конфігурації kubeadm</h1>
@@ -28,7 +27,7 @@ auto_generated: false
 - kubeadm v1.15.x і новіше можна використовувати для міграції з v1beta1 на v1beta2.
 - kubeadm v1.22.x і новіші більше не підтримують v1beta1 і старіші API, але можуть бути використані для міграції з v1beta2 на v1beta3.
 - kubeadm v1.27.x і новіші більше не підтримують v1beta2 і старіші API.
-- TODO: https://github.com/kubernetes/kubeadm/issues/2890 додати версію, яку можна використовувати для конвертації у v1beta4
+- kubeadm v1.31.x і новіше можна використовувати для міграції з v1beta3 на v1beta4.
 
 <h2>Основи</h2>
 
@@ -213,13 +212,13 @@ etcd:
       - name: SOME_VAR
         value: SOME_VALUE
     serverCertSANs:
-      -  "ec2-10-100-0-1.compute-1.amazonaws.com"
+      -  ec2-10-100-0-1.compute-1.amazonaws.com
     peerCertSANs:
-      - "10.100.0.1"
+      - 10.100.0.1
 # external:
   # endpoints:
-  # - "10.100.0.1:2379"
-  # - "10.100.0.2:2379"
+  # - 10.100.0.1:2379
+  # - 10.100.0.2:2379
   # caFile: "/etcd/kubernetes/pki/etcd/etcd-ca.crt"
   # certFile: "/etcd/kubernetes/pki/etcd/etcd.crt"
   # keyFile: "/etcd/kubernetes/pki/etcd/etcd.key"
@@ -235,7 +234,7 @@ apiServer:
 
   extraArgs:
     - name: authorization-mode
-      value: "Node,RBAC"
+      value: Node,RBAC
   extraEnvs:
     - name: SOME_VAR
       value: SOME_VALUE
@@ -263,7 +262,7 @@ controllerManager:
 scheduler:
   extraArgs:
     - name: address
-      value: "10.100.0.1"
+      value: 10.100.0.1
   extraVolumes:
     - name: "some-volume"
       hostPath: "/etc/some-path"
@@ -278,7 +277,7 @@ encryptionAlgorithm: ECDSA-P256
 dns:
   disabled: true  # disable CoreDNS
 proxy:
-  diabled: true   # disable kube-proxy
+  disabled: true   # disable kube-proxy
 ---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
@@ -385,7 +384,7 @@ BootstrapToken описує один bootstrap token, зберігається �
 </td>
 </tr>
 <tr><td><code>expires</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#time-v1-meta"><code>meta/v1.Time</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta"><code>meta/v1.Time</code></a>
 </td>
 <td>
    <p><code>expires</code> вказує на момент, коли цей токен закінчує свою дію. Стандартно встановлюється динамічно під час виконання на основі <code>ttl</code>.
@@ -544,7 +543,7 @@ ClusterConfiguration містить конфігурацію на рівні к�
 <a href="#kubeadm-k8s-io-v1beta4-EncryptionAlgorithmType"><code>EncryptionAlgorithmType</code></a>
 </td>
 <td>
-   <p><code>encryptionAlgorithm</code> містить тип асиметричного алгоритму шифрування, що використовується для ключів та сертифікатів. Може бути <code>&quot;RSA&quot;</code> (стандартний алгоритм, розмір ключа 2048) або <code>&quot;ECDSA&quot;</code> (використовує еліптичну криву P-256).</p>
+   <p><code>encryptionAlgorithm</code> містить тип асиметричного алгоритму шифрування, що використовується для ключів та сертифікатів. Може бути один з <code>&quot;RSA-2048&quot;</code> (стандартний алгоритм), <code>&quot;RSA-3072&quot;</code>, <code>&quot;RSA-4096&quot;</code> або <code>&quot;ECDSA-P256&quot;</code>.</p>
 </td>
 </tr>
 </tr>
@@ -955,7 +954,7 @@ BootstrapTokenDiscovery використовується для налаштув
 </table>
 
 ## `ControlPlaneComponent` {#kubeadm-k8s-io-v1beta4-ControlPlaneComponent}
-    
+
 **Зʼявляється в:**
 
 - [ClusterConfiguration](#kubeadm-k8s-io-v1beta4-ClusterConfiguration)
@@ -968,8 +967,8 @@ ControlPlaneComponent містить налаштування, загальні 
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-    
-  
+
+
 <tr><td><code>extraArgs</code><br/>
 <a href="#kubeadm-k8s-io-v1beta4-Arg"><code>[]Arg</code></a>
 </td>
@@ -1058,7 +1057,7 @@ Discovery визначає параметри для kubelet під час пр�
 </table>
 
 ## `EncryptionAlgorithmType` {#kubeadm-k8s-io-v1beta4-EncryptionAlgorithmType}
-    
+
 (Аліас для `string`)
 
 **Зʼявляється в:**
@@ -1068,7 +1067,7 @@ Discovery визначає параметри для kubelet під час пр�
 EncryptionAlgorithmType може визначити тип асиметричного алгоритму шифрування.
 
 ## `EnvVar` {#kubeadm-k8s-io-v1beta4-EnvVar}
-    
+
 **Зʼявляється в:**
 
 - [ControlPlaneComponent](#kubeadm-k8s-io-v1beta4-ControlPlaneComponent)
@@ -1081,7 +1080,7 @@ EnvVar представляє змінну середовища, присутн�
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
 <tr><td><code>EnvVar</code> <b>[Обовʼязкове]</b><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#envvar-v1-core"><code>core/v1.EnvVar</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#envvar-v1-core"><code>core/v1.EnvVar</code></a>
 </td>
 <td>(Члени <code>EnvVar</code> вбудовані в цей тип.)
    <span class="text-muted">Опис не надано.</span></td>
@@ -1183,7 +1182,7 @@ FileDiscovery використовується для вказівки файл�
 </table>
 
 ## `HostPathMount` {#kubeadm-k8s-io-v1beta4-HostPathMount}
-    
+
 **Зʼявляється в:**
 
 - [ControlPlaneComponent](#kubeadm-k8s-io-v1beta4-ControlPlaneComponent)
@@ -1222,7 +1221,7 @@ HostPathMount містить елементи, що описують томи, �
 </td>
 </tr>
 <tr><td><code>pathType</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#hostpathtype-v1-core"><code>core/v1.HostPathType</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#hostpathtype-v1-core"><code>core/v1.HostPathType</code></a>
 </td>
 <td>
    <p><code>pathType</code> — це тип <code>hostPath</code>.</p>
@@ -1347,7 +1346,7 @@ LocalEtcd описує, що kubeadm має запустити кластер et
 </table>
 
 ## `Networking` {#kubeadm-k8s-io-v1beta4-Networking}
-    
+
 **Зʼявляється в:**
 
 - [ClusterConfiguration](#kubeadm-k8s-io-v1beta4-ClusterConfiguration)
@@ -1409,7 +1408,7 @@ NodeRegistrationOptions містить поля, що стосуються ре�
 </td>
 </tr>
 <tr><td><code>taints</code> <b>[Обовʼязкове]</b><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#taint-v1-core"><code>[]core/v1.Taint</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#taint-v1-core"><code>[]core/v1.Taint</code></a>
 </td>
 <td>
    <p><code>taints</code><p><code>taints</code> вказує на taints, з якими обʼєкт Node API повинен бути зареєстрований. Якщо це поле не встановлено, тобто nil, воно буде стандартно з control-plane taint для вузлів control-plane. Якщо ви не хочете taint для вашого вузла control-plane, встановіть в це поле порожній список, тобто <code>taints: []</code> у YAML файлі. Це поле використовується виключно для реєстрації вузлів.</p>
@@ -1430,7 +1429,7 @@ NodeRegistrationOptions містить поля, що стосуються ре�
 </td>
 </tr>
 <tr><td><code>imagePullPolicy</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
 </td>
 <td>
    <p><code>imagePullPolicy</code> вказує політику витягування образів під час <code>kubeadm init</code> та <code>join</code> операцій. Значення цього поля має бути одне з &quot;Always&quot;, &quot;IfNotPresent&quot; або &quot;Never&quot;. Якщо це поле не задане, kubeadm стандартно встановить його в &quot;IfNotPresent&quot;, або витягне необхідні образи, якщо вони не присутні на хості.</p>
@@ -1447,7 +1446,7 @@ NodeRegistrationOptions містить поля, що стосуються ре�
 </table>
 
 ## `Patches` {#kubeadm-k8s-io-v1beta4-Patches}
-    
+
 
 **Зʼявляється в:**
 
@@ -1655,7 +1654,7 @@ UpgradeApplyConfiguration містить список параметрів ко�
 </tr>
 </tr>
 <tr><td><code>imagePullPolicy</code><br/>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
 </td>
 <td>
    <p><code>imagePullPolicy</code> визначає політику витягування образів під час операцій <code>kubeadm upgrade apply</code>. Значення цього поля має бути одним з &quot;Always&quot;, &quot;IfNotPresent&quot; або &quot;Never&quot;. Якщо це поле не встановлено, kubeadm автоматично встановить значення &quot;IfNotPresent&quot;, або витягне потрібні образи, якщо їх немає на хості.</p>
@@ -1711,8 +1710,8 @@ UpgradeNodeConfiguration містить список параметрів кон
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-    
-  
+
+
 <tr><td><code>certificateRenewal</code><br/>
 <code>bool</code>
 </td>
@@ -1756,7 +1755,7 @@ UpgradeNodeConfiguration містить список параметрів кон
 </td>
 </tr>
 <tr><td><code>imagePullPolicy</code><br/>
-<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.31/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.32/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
 </td>
 <td>
    <p><code>imagePullPolicy</code> визначає політику витягування образів під час операцій <code>kubeadm upgrade node</code>. Значенням цього поля має бути одне з &quot;Always&quot;, &quot;IfNotPresent&quot; або &quot;Never&quot;. Якщо це поле не встановлено, kubeadm автоматично встановить значення &quot;IfNotPresent&quot;, або витягне потрібні образи, якщо їх немає на хості.</p>

@@ -11,6 +11,146 @@ auto_generated: false
 - [LeaderMigrationConfiguration](#controllermanager-config-k8s-io-v1alpha1-LeaderMigrationConfiguration)
 - [KubeControllerManagerConfiguration](#kubecontrollermanager-config-k8s-io-v1alpha1-KubeControllerManagerConfiguration)
 
+## `ClientConnectionConfiguration` {#ClientConnectionConfiguration}
+
+**Зʼявляється у:**
+
+- [GenericControllerManagerConfiguration](#controllermanager-config-k8s-io-v1alpha1-GenericControllerManagerConfiguration)
+
+ClientConnectionConfiguration містить деталі для конструювання клієнта.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>kubeconfig</code> <b>[Обовʼязково]</b><br/>
+                <code>string</code>
+            </td>
+            <td><p>kubeconfig — шлях до файлу KubeConfig.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>acceptContentTypes</code> <b>[Обовʼязково]</b><br/>
+                <code>string</code>
+            </td>
+            <td><p>acceptContentTypes визначає заголовок Accept, що надсилається клієнтами при підключенні до сервера, замінюючи стандартне значення 'application/json'. Це поле буде контролювати всі зʼєднання з сервером, що використовуються конкретним клієнтом.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>contentType</code> <b>[Обовʼязково]</b><br/>
+                <code>string</code>
+            </td>
+            <td><p>contentType — тип контенту, який використовується при надсиланні даних на сервер з цього клієнта.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>qps</code> <b>[Обовʼязково]</b><br/>
+                <code>float32</code>
+            </td>
+            <td><p>qps контролює кількість запитів на секунду, дозволених для цього зʼєднання.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>burst</code> <b>[Обовʼязково]</b><br/>
+                <code>int32</code>
+            </td>
+            <td><p>burst дозволяє накопичувати додаткові запити, коли клієнт перевищує свій ліміт.</p></td>
+        </tr>
+    </tbody>
+</table>
+
+## `DebuggingConfiguration` {#DebuggingConfiguration}
+
+**Зʼявляється у:**
+
+- [GenericControllerManagerConfiguration](#controllermanager-config-k8s-io-v1alpha1-GenericControllerManagerConfiguration)
+
+DebuggingConfiguration містить конфігурацію для функцій, повʼязаних з налагодженням.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>enableProfiling</code> <b>[Обовʼязково]</b><br/>
+                <code>bool</code>
+            </td>
+            <td><p>enableProfiling вмикає профілювання через веб-інтерфейс host:port/debug/prof/</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>enableContentionProfiling</code> <b>[Обовʼязково]</b><br/>
+                <code>bool</code>
+            </td>
+            <td><p>enableContentionProfiling вмикає профілювання блоків, якщо enableProfiling має значення true.</p></td>
+        </tr>
+    </tbody>
+</table>
+
+## `LeaderElectionConfiguration` {#LeaderElectionConfiguration}
+
+**Зʼявляється у:**
+
+- [GenericControllerManagerConfiguration](#controllermanager-config-k8s-io-v1alpha1-GenericControllerManagerConfiguration)
+
+LeaderElectionConfiguration визначає конфігурацію клієнтів виборів лідера для компонентів, які можуть працювати з увімкненими виборами лідера.
+
+<table class="table">
+    <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+    <tbody>
+        <tr>
+            <td>
+                <code>leaderElect</code> <b>[Обовʼязково]</b><br/>
+                <code>bool</code>
+            </td>
+            <td><p>leaderElect дозволяє клієнту, який обирає лідера, отримати лідерство перед виконанням основного циклу. Увімкніть цей параметр під час запуску реплікованих компонентів для забезпечення високої доступності.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>leaseDuration</code> <b>[Обовʼязково]</b><br/>
+                <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
+            </td>
+            <td><p>leaseDuration — це тривалість, протягом якої кандидати, що не є лідерами, чекатимуть після поновлення лідерства, перш ніж спробувати зайняти лідерство в лідируючому, але не поновленому лідерському слоті. Це фактично максимальна тривалість, на яку лідер може бути зупинений, перш ніж його замінить інший кандидат. Це застосовується лише у тому випадку, якщо вибори лідера увімкнені.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>renewDeadline</code> <b>[Обовʼязково]</b><br/>
+                <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
+            </td>
+            <td><p>renewDeadline — інтервал між спробами виконуючого обов'язки майстра поновити слот лідерства до того, як він перестане бути лідером. Він має бути меншим або рівним тривалості оренди. Це застосовується лише у тому випадку, якщо вибори лідера увімкнені.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>retryPeriod</code> <b>[Обовʼязково]</b><br/>
+                <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
+            </td>
+            <td><p>retryPeriod — це час, протягом якого клієнти повинні чекати між спробою отримання та поновленням лідерства. Це застосовується лише у тому випадку, якщо вибори лідера увімкнені.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>resourceLock</code> <b>[Обовʼязково]</b><br/>
+                <code>string</code>
+            </td>
+            <td><p>resourceLock вказує тип обʼєкта ресурсу, який буде використовуватися для блокування під час циклів обрання лідера.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>resourceName</code> <b>[Обовʼязково]</b><br/>
+                <code>string</code>
+            </td>
+            <td><p>resourceName вказує імʼя обʼєкта ресурсу, який буде використовуватися для блокування під час циклів обрання лідера.</p></td>
+        </tr>
+        <tr>
+            <td>
+                <code>resourceNamespace</code> <b>[Обовʼязково]</b><br/>
+                <code>string</code>
+            </td>
+            <td><p>resourceName вказує на простір імен обʼєкта ресурсу, який буде використовуватися для блокування під час циклів обрання лідера.</p></td>
+        </tr>
+    </tbody>
+</table>
+
 ## `NodeControllerConfiguration` {#NodeControllerConfiguration}
 
 **Зʼявляється у:**
@@ -1003,7 +1143,7 @@ AttachDetachControllerConfiguration містить елементи, що опи
 </table>
 
 ## `CSRSigningConfiguration`     {#kubecontrollermanager-config-k8s-io-v1alpha1-CSRSigningConfiguration}
-    
+
 
 **Зʼявляється в:**
 
@@ -1741,7 +1881,7 @@ NodeLifecycleControllerConfiguration містить елементи, що оп�
                 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
             </td>
             <td>
-                <p>nodeMonitorGracePeriod — період часу, протягом якого дозволяється вузлу не відгукуватись, перш ніж позначити його як несправний. Має бути N разів більше, ніж nodeStatusUpdateFrequency kubeletʼа, де N означає кількість спроб, дозволених для kubelet для надсилання статусу вузла.</p>
+                <p>nodeMonitorGracePeriod — період часу, протягом якого дозволяється вузлу не відгукуватись, перш ніж позначити його як несправний. Має бути N разів більше, ніж nodeStatusUpdateFrequency kubeletʼа, де N означає кількість спроб, дозволених для kubelet для надсилання статусу вузла. Це значення також має бути більшим за суму HTTP2_PING_TIMEOUT_SECONDS і HTTP2_READ_IDLE_TIMEOUT_SECONDS.</p>
             </td>
         </tr>
         <tr>

@@ -30,9 +30,9 @@ kubectl get pods/<імʼя_пода> -o yaml
 
 У виводі ви побачите поле `spec.serviceAccountName`. Kubernetes автоматично встановлює це значення, якщо ви не вказали його при створенні Podʼа.
 
-Застосунок, який працює усередині Podʼа, може отримати доступ до API Kubernetes, використовуючи автоматично змонтовані облікові дані службового облікового запису. Для отримання додаткової інформації див. [доступ до кластера](/uk/docs/tasks/access-application-cluster/access-cluster/).
+Застосунок, який працює усередині Podʼа, може отримати доступ до API Kubernetes, використовуючи автоматично змонтовані облікові дані службового облікового запису. Для отримання додаткової інформації див. [доступ до кластера](/docs/tasks/access-application-cluster/access-cluster/).
 
-Коли Pod автентифікується як Службовий обліковий запис, його рівень доступу залежить від [втулка авторизації та політики](/uk/docs/reference/access-authn-authz/authorization/#authorization-modules), які використовуються.
+Коли Pod автентифікується як Службовий обліковий запис, його рівень доступу залежить від [втулка авторизації та політики](/docs/reference/access-authn-authz/authorization/#authorization-modules), які використовуються.
 
 Облікові дані API автоматично відкликаються, коли Pod видаляється, навіть якщо є завершувачі. Зокрема, облікові дані API відкликаються через 60 секунд після встановленого на Pod значення `.metadata.deletionTimestamp` (час видалення зазвичай дорівнює часу, коли запит на **видалення** був прийнятий плюс період належного завершення роботи Pod).
 
@@ -68,7 +68,7 @@ spec:
 
 ## Використання більше ніж одного ServiceAccount {#use-multiple-service-accounts}
 
-У кожному просторі імен є принаймні один ServiceAccount: типовий ServiceAccount, який називається `default`. Ви можете переглянути всі ресурси ServiceAccount у вашому [поточному просторі імен](/uk/docs/concepts/overview/working-with-objects/namespaces/#setting-the-namespace-preference) за допомогою:
+У кожному просторі імен є принаймні один ServiceAccount: типовий ServiceAccount, який називається `default`. Ви можете переглянути всі ресурси ServiceAccount у вашому [поточному просторі імен](/docs/concepts/overview/working-with-objects/namespaces/#setting-the-namespace-preference) за допомогою:
 
 ```shell
 kubectl get serviceaccounts
@@ -92,7 +92,7 @@ metadata:
 EOF
 ```
 
-Імʼя обʼєкта ServiceAccount повинно бути дійсним [DNS-піддоменним імʼям](/uk/docs/concepts/overview/working-with-objects/names#dns-subdomain-names).
+Імʼя обʼєкта ServiceAccount повинно бути дійсним [DNS-піддоменним імʼям](/docs/concepts/overview/working-with-objects/names#dns-subdomain-names).
 
 Якщо ви отримуєте повний дамп обʼєкта ServiceAccount, подібний до цього:
 
@@ -113,14 +113,14 @@ metadata:
   uid: 721ab723-13bc-11e5-aec2-42010af0021e
 ```
 
-Ви можете використовувати розширення дозволів для [встановлення дозволів на облікові записи служб](/uk/docs/reference/access-authn-authz/rbac/#service-account-permissions).
+Ви можете використовувати розширення дозволів для [встановлення дозволів на облікові записи служб](/docs/reference/access-authn-authz/rbac/#service-account-permissions).
 
 Щоб використовувати не-стандартний обліковий запис, встановіть поле `spec.serviceAccountName` Podʼа на імʼя ServiceAccount, який ви хочете використовувати.
 
 Ви можете встановити лише поле `serviceAccountName` при створенні Podʼа або в шаблоні для нового Podʼа. Ви не можете оновлювати поле `.spec.serviceAccountName` Podʼа, який вже існує.
 
 {{< note >}}
-Поле `.spec.serviceAccount` є застарілою альтернативою для `.spec.serviceAccountName`. Якщо ви хочете видалити поля з ресурсу робочого навантаження, встановіть обидва поля явно пустими у [шаблоні Pod](/uk/docs/concepts/workloads/pods#pod-templates).
+Поле `.spec.serviceAccount` є застарілою альтернативою для `.spec.serviceAccountName`. Якщо ви хочете видалити поля з ресурсу робочого навантаження, встановіть обидва поля явно пустими у [шаблоні Pod](/docs/concepts/workloads/pods#pod-templates).
 {{< /note >}}
 
 ### Очищення {#cleanup-use-multiple-service-accounts}
@@ -145,7 +145,7 @@ kubectl create token build-robot
 
 {{< feature-state feature_gate_name="ServiceAccountTokenNodeBinding" >}}
 
-Коли увімкнено функції `ServiceAccountTokenNodeBinding` і `ServiceAccountTokenNodeBindingValidation`, а також використовується `kubectl` версії 1.31 або пізнішої, можна створити токен службового облікового запису, який безпосередньо привʼязаний до Node.
+Використовуючи `kubectl` v1.31 або новішу версію, можна створити токен службового облікового запису, який буде безпосередньо привʼязано до вузла:
 
 ```shell
 kubectl create token build-robot --bound-object-kind Node --bound-object-name node-001 --bound-object-uid 123...456
@@ -154,9 +154,9 @@ kubectl create token build-robot --bound-object-kind Node --bound-object-name no
 Токен буде чинний до закінчення його терміну дії або до видалення відповідного вузла чи службового облікового запису.
 
 {{< note >}}
-У версіях Kubernetes до v1.22 автоматично створювалися довгострокові облікові дані для доступу до API Kubernetes. Цей старий механізм базувався на створенні Secret токенів, які потім можна було монтувати в запущені контейнери. У більш пізніх версіях, включаючи Kubernetes v{{< skew currentVersion >}}, облікові дані API отримуються безпосередньо за допомогою [TokenRequest](/uk/docs/reference/kubernetes-api/authentication-resources/token-request-v1/) API, і вони монтуються в контейнери за допомогою [projected тому](/uk/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume). Токени, отримані за допомогою цього методу, мають обмежений термін дії та автоматично анулюються, коли контейнер, у який вони монтувалися, видаляється.
+У версіях Kubernetes до v1.22 автоматично створювалися довгострокові облікові дані для доступу до API Kubernetes. Цей старий механізм базувався на створенні Secret токенів, які потім можна було монтувати в запущені контейнери. У більш пізніх версіях, включаючи Kubernetes v{{< skew currentVersion >}}, облікові дані API отримуються безпосередньо за допомогою [TokenRequest](/docs/reference/kubernetes-api/authentication-resources/token-request-v1/) API, і вони монтуються в контейнери за допомогою [projected тому](/docs/reference/access-authn-authz/service-accounts-admin/#bound-service-account-token-volume). Токени, отримані за допомогою цього методу, мають обмежений термін дії та автоматично анулюються, коли контейнер, у який вони монтувалися, видаляється.
 
-Ви все ще можете вручну створити Secret токен службового облікового запису; наприклад, якщо вам потрібен токен, який ніколи не закінчується. Однак рекомендується використовувати [TokenRequest](/uk/docs/reference/kubernetes-api/authentication-resources/token-request-v1/) для отримання токена для доступу до API.
+Ви все ще можете вручну створити Secret токен службового облікового запису; наприклад, якщо вам потрібен токен, який ніколи не закінчується. Однак рекомендується використовувати [TokenRequest](/docs/reference/kubernetes-api/authentication-resources/token-request-v1/) для отримання токена для доступу до API.
 {{< /note >}}
 
 ### Вручну створіть довговічний API-токен для ServiceAccount {#manually-create-a-long-lived-api-token-for-a-serviceaccount}
@@ -220,14 +220,14 @@ token:          ...
 
 ` kubectl get serviceaccount build-robot -o yaml`
 
-Ви не побачите Secret `build-robot-secret` у полях API-обʼєктів службового облікового запису [`.secrets`](/uk/docs/reference/kubernetes-api/authentication-resources/service-account-v1/), оскільки це поле заповнюється лише автоматично згенерованими Secret.
+Ви не побачите Secret `build-robot-secret` у полях API-обʼєктів службового облікового запису [`.secrets`](/docs/reference/kubernetes-api/authentication-resources/service-account-v1/), оскільки це поле заповнюється лише автоматично згенерованими Secret.
 {{< /note >}}
 
 ## Додайте ImagePullSecrets до ServiceAccount {#add-imagepullsecrets-to-a-serviceaccount}
 
-Спочатку [створіть imagePullSecret](/uk/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod). Потім перевірте, чи він був створений. Наприклад:
+Спочатку [створіть imagePullSecret](/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod). Потім перевірте, чи він був створений. Наприклад:
 
-- Створіть imagePullSecret, як описано в [Вказування ImagePullSecrets в контейнері](/uk/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod).
+- Створіть imagePullSecret, як описано в [Вказування ImagePullSecrets в контейнері](/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod).
 
   ```shell
   kubectl create secret docker-registry myregistrykey --docker-server=<імʼя реєстру> \
@@ -331,7 +331,7 @@ myregistrykey
 
 Kubelet також може проєцювати токен ServiceAccount в Pod. Ви можете вказати бажані властивості токена, такі як аудиторія та тривалість дії. Ці властивості _не_ конфігуруються для типового токена ServiceAccount. Токен також стане недійсним щодо API, коли будь-який з Podʼів або ServiceAccount буде видалено.
 
-Ви можете налаштувати цю поведінку для `spec` Podʼа за допомогою типу [projected тому](/uk/docs/concepts/storage/volumes/#projected), що називається `ServiceAccountToken`.
+Ви можете налаштувати цю поведінку для `spec` Podʼа за допомогою типу [projected тому](/docs/concepts/storage/volumes/#projected), що називається `ServiceAccountToken`.
 
 Токен з цього projected тому — {{<glossary_tooltip term_id="jwt" text="JSON Web Token">}} (JWT). JSON-вміст цього токена слідує чітко визначеній схемі — приклад вмісту для токена, повʼязаного з Pod:
 
@@ -343,10 +343,10 @@ Kubelet також може проєцювати токен ServiceAccount в Po
   "exp": 1731613413,
   "iat": 1700077413,
   "iss": "https://kubernetes.default.svc",  # відповідає першому значенню, переданому прапорцю --service-account-issuer
-  "jti": "ea28ed49-2e11-4280-9ec5-bc3d1d84661a",  # Функція ServiceAccountTokenJTI повинна бути активована для того, щоб вимагати присутності цього запиту
+  "jti": "ea28ed49-2e11-4280-9ec5-bc3d1d84661a",
   "kubernetes.io": {
     "namespace": "kube-system",
-    "node": {  # Функція ServiceAccountTokenPodNodeInfo повинна бути активована для того, щоб API-сервер додавав цей запит посилання на вузол
+    "node": {
       "name": "127.0.0.1",
       "uid": "58456cb0-dd00-45ed-b797-5578fdceaced"
     },
@@ -409,11 +409,11 @@ URL емітента повинен відповідати [Специфікац
 
 Дивіться також:
 
-- Прочитайте [Посібник адміністратора кластера щодо службових облікових записів](/uk/docs/reference/access-authn-authz/service-accounts-admin/)
-- Дізнайтеся про [Авторизацію в Kubernetes](/uk/docs/reference/access-authn-authz/authorization/)
-- Дізнайтеся про [Secret](/uk/docs/concepts/configuration/secret/)
-  - або, як [розподіляти облікові дані безпечно за допомогою Secret](/uk/docs/tasks/inject-data-application/distribute-credentials-secure/)
+- Прочитайте [Посібник адміністратора кластера щодо службових облікових записів](/docs/reference/access-authn-authz/service-accounts-admin/)
+- Дізнайтеся про [Авторизацію в Kubernetes](/docs/reference/access-authn-authz/authorization/)
+- Дізнайтеся про [Secret](/docs/concepts/configuration/secret/)
+  - або, як [розподіляти облікові дані безпечно за допомогою Secret](/docs/tasks/inject-data-application/distribute-credentials-secure/)
   - але також майте на увазі, що використання Secret для автентифікації як службового облікового запису є застарілим. Рекомендований альтернативний метод — [проєціювання токенів службового облікового запису](#serviceaccount-token-volume-projection).
-- Дізнайтеся про [projected томи](/uk/docs/tasks/configure-pod-container/configure-projected-volume-storage/).
+- Дізнайтеся про [projected томи](/docs/tasks/configure-pod-container/configure-projected-volume-storage/).
 - Для ознайомлення з OIDC discovery, прочитайте [Попередній перегляд пропозиції щодо підпису токена службового облікового запису](https://github.com/kubernetes/enhancements/tree/master/keps/sig-auth/1393-oidc-discovery) щодо покращення Kubernetes
 - Прочитайте [Специфікацію виявлення OIDC](https://openid.net/specs/openid-connect-discovery-1_0.html)

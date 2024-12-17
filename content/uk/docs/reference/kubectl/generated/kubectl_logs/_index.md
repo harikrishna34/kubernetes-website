@@ -20,14 +20,32 @@ kubectl logs [-f] [-p] (POD | TYPE/NAME) [-c CONTAINER]
 # Вивести знімок логів з Podʼа nginx з одним контейнером
 kubectl logs nginx
 
+# Вивести знімки логів з пакета nginx, додаючи до кожного рядка імʼя вихідного пакета та контейнера.
+kubectl logs nginx --prefix
+
+# Вивести знімки логів з pod nginx, обмеживши виведення до 500 байт
+kubectl logs nginx --limit-bytes=500
+
+# Вивести знімки логів з pod nginx, зачекавши до 20 секунд на їх запуск.
+kubectl logs nginx --pod-running-timeout=20s
+
 # Вивести знімок логів з Podʼа nginx з кількома контейнерами
 kubectl logs nginx --all-containers=true
+
+# Вивести знімок логів з всіх Podʼів в deployment nginx
+kubectl logs deployment/nginx --all-pods=true
 
 # Вивести знімок логів з усіх контейнерів у Podʼах, визначених міткою app=nginx
 kubectl logs -l app=nginx --all-containers=true
 
+# Вивести знімок логів з всіх Podʼів з міткою app=nginx, обмживши запити логів 10 Podʼами
+kubectl logs -l app=nginx --max-log-requests=10
+
 # Вивести знімок логів з попереднього завершеного контейнера ruby з Podʼа web-1
 kubectl logs -p -c ruby web-1
+
+# Почати трансляцію логів з Podʼа nginx, продовжувати навіть за наявності помилок
+kubectl logs nginx -f --ignore-errors=true
 
 # Почати трансляцію логів контейнера ruby у Podʼі web-1
 kubectl logs -f -c ruby web-1
@@ -40,6 +58,10 @@ kubectl logs --tail=20 nginx
 
 # Показати всі логи з Podʼа nginx, записані за останню годину
 kubectl logs --since=1h nginx
+
+# Показати всі логи з позначками часу від Podʼа nginx, починаючи з 30 серпня 2024 року, о 06:00:00 UTC
+kubectl logs nginx --since-time=2024-08-30T06:00:00Z --timestamps=true
+
 
 # Показати логи з kubelet з простроченим сертифікатом сервера
 kubectl logs --insecure-skip-tls-verify-backend nginx

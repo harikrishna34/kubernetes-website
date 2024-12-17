@@ -687,7 +687,7 @@ TCPTransport надає інформацію для зʼєднання з сер
 </table>
 
 ## `TLSConfig` {#apiserver-k8s-io-v1alpha1-TLSConfig}
-    
+
 **Зʼявляється в:**
 
 - [TCPTransport](#apiserver-k8s-io-v1alpha1-TCPTransport)
@@ -720,7 +720,7 @@ TLSConfig надає інформацію для автентифікації д
 </table>
 
 ## `Transport`{#apiserver-k8s-io-v1alpha1-Transport}
-    
+
 **Зʼявляється в:**
 
 - [Connection](#apiserver-k8s-io-v1alpha1-Connection)
@@ -747,7 +747,7 @@ Transport визначає конфігурації транспорту, які
 </table>
 
 ## `UDSTransport` {#apiserver-k8s-io-v1alpha1-UDSTransport}
-    
+
 
 **Зʼявляється в:**
 
@@ -769,7 +769,7 @@ UDSTransport надає інформацію для підключення до 
 </table>
 
 ## `UserValidationRule` {#apiserver-k8s-io-v1alpha1-UserValidationRule}
-    
+
 
 **Зʼявляється в:**
 
@@ -802,7 +802,7 @@ UserValidationRule надає конфігурацію для одного пр�
 </table>
 
 ## `WebhookConfiguration` {#apiserver-k8s-io-v1alpha1-WebhookConfiguration}
-    
+
 
 **Зʼявляється в:**
 
@@ -878,7 +878,7 @@ UserValidationRule надає конфігурацію для одного пр�
 </table>
 
 ## `WebhookConnectionInfo` {#apiserver-k8s-io-v1alpha1-WebhookConnectionInfo}
-    
+
 **Зʼявляється в:**
 
 - [WebhookConfiguration](#apiserver-k8s-io-v1alpha1-WebhookConfiguration)
@@ -920,6 +920,14 @@ UserValidationRule надає конфігурацію для одного пр�
                 <code>string</code>
             </td>
             <td><p>expression представляє вираз, який буде оцінюватися за допомогою CEL. Повинен оцінюватися як bool. CEL вирази мають доступ до вмісту SubjectAccessReview у версії v1. Якщо версія, вказана в subjectAccessReviewVersion у змінній запиту, є v1beta1, вміст буде перетворено на версію v1 перед оцінкою виразу CEL.</p>
+            <ul>
+                <li>'resourceAttributes' описує інформацію для запиту доступу до ресурсу і не встановлюється для нересурсних запитів, наприклад, has(request.resourceAttributes) &amp;&amp; request.resourceAttributes.namespace == 'default'</li>
+                <li>'nonResourceAttributes' описує інформацію для запиту доступу до нересурсів і не встановлюється для запитів до ресурсів. наприклад, has(request.nonResourceAttributes) &amp;&amp; request.nonResourceAttributes.path == '/healthz'.</li>
+                <li>'user' — користувач, для якого потрібно перевірити, наприклад, request.user == 'alice'</li>
+                <li>'groups' — це групи, для яких потрібно протестувати, наприклад, ('group1' in request.groups)</li>
+                <li>'extra' відповідає методу user.Info.GetExtra() з автентифікатора.</li>
+                <li>'uid' — інформація про користувача, який надіслав запит, наприклад, request.uid == '1'.</li>
+                </ul>
             <p>Документація з CEL: <a href="/uk/docs/reference/using-api/cel/">https://kubernetes.io/docs/reference/using-api/cel/</a></p></td>
         </tr>
     </tbody>

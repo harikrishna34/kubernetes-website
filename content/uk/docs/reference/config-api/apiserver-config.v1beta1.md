@@ -666,15 +666,15 @@ Transport визначає конфігурації транспорту, які
                 <a href="#apiserver-k8s-io-v1beta1-TCPTransport"><code>TCPTransport</code></a>
             </td>
             <td><p>TCP — це конфігурація TCP для звʼязку з konnectivity сервером через TCP. ProxyProtocol GRPC наразі не підтримується з TCP транспортом. Вимагає налаштування хоча б одного з TCP або UDS</p></td>
-        </tr>     
+        </tr>
            <tr>
             <td><code>uds</code><br/>
-                <a href="#apiserver-k8s-io-v1beta1-UDSTransport"><code>UDSTransport</code></a>             
+                <a href="#apiserver-k8s-io-v1beta1-UDSTransport"><code>UDSTransport</code></a>
             </td>
             <td><p>UDS — це конфігурація UDS для звʼязку з konnectivity сервером  ерез UDS. Вимагає налаштування хоча б одного з TCP або UDS</p></td>
-        </tr>     
+        </tr>
     </tbody>
-</table> 
+</table>
 
 ## `UDSTransport` {#apiserver-k8s-io-v1beta1-UDSTransport}
 
@@ -725,10 +725,10 @@ UserValidationRule надає конфігурацію для одного пр�
             <td><p>message налаштовує повернуте повідомлення про помилку, коли правилоило повертає false. message є літеральним рядком.</p></td>
         </tr>
     </tbody>
-</table> 
+</table>
 
-## `WebhookConfiguration` {#apiserver-k8s-io-v1beta1-WebhookConfiguration} 
-**З’являється в:** 
+## `WebhookConfiguration` {#apiserver-k8s-io-v1beta1-WebhookConfiguration}
+**З’являється в:**
 
 - [AuthorizerCoзguration](#apiserver-k8s-io-v1beta1-AuthorizerConfiguration)
 
@@ -841,7 +841,15 @@ UserValidationRule надає конфігурацію для одного пр�
             <td><code>expression</code> <b>[Обовʼязкове]</b><br/>
                 <code>string</code>
             </td>
-            <td><p>expression представляє вираз, який буде оцінюватися CEL. Повинен оцінюватися як bool. CEL вирази мають доступ до вмісту SubjectAccessReview у версії v1. Якщо версія, вказана у змінній запиту subjectAccessReviewVersion, є v1beta1, вміст буде конвертовано у версію v1 перед оцінкою виразу CEL.</p> 
+            <td><p>expression представляє вираз, який буде оцінюватися CEL. Повинен оцінюватися як bool. CEL вирази мають доступ до вмісту SubjectAccessReview у версії v1. Якщо версія, вказана у змінній запиту subjectAccessReviewVersion, є v1beta1, вміст буде конвертовано у версію v1 перед оцінкою виразу CEL.</p>
+            <ul>
+                <li>'resourceAttributes' описує інформацію для запиту доступу до ресурсу і не встановлюється для нересурсних запитів, наприклад, has(request.resourceAttributes) &amp;&amp; request.resourceAttributes.namespace == 'default'</li>
+                <li>'nonResourceAttributes' описує інформацію для запиту доступу до нересурсів і не встановлюється для запитів до ресурсів. наприклад, has(request.nonResourceAttributes) &amp;&amp; request.nonResourceAttributes.path == '/healthz'.</li>
+                <li>'user' — користувач, для якого потрібно перевірити, наприклад, request.user == 'alice'</li>
+                <li>'groups' — це групи, для яких потрібно протестувати, наприклад, ('group1' in request.groups)</li>
+                <li>'extra' відповідає методу user.Info.GetExtra() з автентифікатора.</li>
+                <li>'uid' — інформація про користувача, який надіслав запит, наприклад, request.uid == '1'.</li>
+                </ul>
             <p>Документація з CEL: <a href="/uk/docs/reference/using-api/cel/">https://kubernetes.io/docs/reference/using-api/cel/</a></p></td>
         </tr>
     </tbody>

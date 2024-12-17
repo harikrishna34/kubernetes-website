@@ -304,7 +304,7 @@ BootstrapToken описує один bootstrap токен, збережений 
 </td>
 </tr>
 <tr><td><code>expires</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#time-v1-meta"><code>meta/v1.Time</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#time-v1-meta"><code>meta/v1.Time</code></a>
 </td>
 <td>
    <p><code>expires</code> вказує на мітку часу, коли цей токен закінчується. Стандартно встановлюється динамічно під час виконання на основі <code>ttl</code>. <code>expires</code> та <code>ttl</code> взаємовиключні.</p>
@@ -761,7 +761,7 @@ Discovery визначає параметри для kubelet, які викор�
 </table>
 
 ## `Etcd` {#kubeadm-k8s-io-v1beta3-Etcd}
-    
+
 **Зʼявляється в:**
 
 - [ClusterConfiguration](#kubeadm-k8s-io-v1beta3-ClusterConfiguration)
@@ -789,7 +789,7 @@ Etcd містить елементи, що описують конфігурац
 </table>
 
 ## `ExternalEtcd` {#kubeadm-k8s-io-v1beta3-ExternalEtcd}
-    
+
 **Зʼявляється в:**
 
 - [Etcd](#kubeadm-k8s-io-v1beta3-Etcd)
@@ -891,7 +891,7 @@ HostPathMount містить елементи, що описують томи, �
 </td>
 </tr>
 <tr><td><code>pathType</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#hostpathtype-v1-core"><code>core/v1.HostPathType</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#hostpathtype-v1-core"><code>core/v1.HostPathType</code></a>
 </td>
 <td>
    <p><code>pathType</code> — це тип <code>hostPath</code>.</p>
@@ -901,7 +901,7 @@ HostPathMount містить елементи, що описують томи, �
 </table>
 
 ## `ImageMeta` {#kubeadm-k8s-io-v1beta3-ImageMeta}
-    
+
 **Зʼявляється в:**
 
 - [DNS](#kubeadm-k8s-io-v1beta3-DNS)
@@ -942,8 +942,8 @@ JoinControlPlane містить елементи, що описують дода
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-    
-  
+
+
 <tr><td><code>localAPIEndpoint</code><br/>
 <a href="#kubeadm-k8s-io-v1beta3-APIEndpoint"><code>APIEndpoint</code></a>
 </td>
@@ -1011,7 +1011,7 @@ LocalEtcd описує, що kubeadm має запускати кластер et
 </table>
 
 ## `Networking` {#kubeadm-k8s-io-v1beta3-Networking}
-    
+
 **Зʼявляється в:**
 
 - [ClusterConfiguration](#kubeadm-k8s-io-v1beta3-ClusterConfiguration)
@@ -1073,7 +1073,7 @@ NodeRegistrationOptions містить поля, що стосуються ре�
 </td>
 </tr>
 <tr><td><code>taints</code> <b>[Обовʼязково]</b><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#taint-v1-core"><code>[]core/v1.Taint</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#taint-v1-core"><code>[]core/v1.Taint</code></a>
 </td>
 <td>
    <p><code>taints</code> вказує на taints, з якими обʼєкт Node API повинен бути зареєстрований. Якщо це поле не встановлено, тобто nil, воно буде стандартно з control-plane taint для вузлів control-plane. Якщо ви не хочете taint для вашого вузла control-plane, встановіть в це поле порожній список, тобто <code>taints: []</code> у YAML файлі. Це поле використовується виключно для реєстрації вузлів.</p>
@@ -1094,7 +1094,7 @@ NodeRegistrationOptions містить поля, що стосуються ре�
 </td>
 </tr>
 <tr><td><code>imagePullPolicy</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#pullpolicy-v1-core"><code>core/v1.PullPolicy</code></a>
 </td>
 <td>
    <p><code>imagePullPolicy</code> вказує політику для витягування образів під час операцій kubeadm &quot;init&quot; та &quot;join&quot;. Значення цього поля повинно бути одне з &quot;Always&quot;, &quot;IfNotPresent&quot; або &quot;Never&quot;. Якщо це поле не встановлено, kubeadm стандартно встановить його в &quot;IfNotPresent&quot;, або витягне необхідні образи, якщо вони не присутні на хості.</p>

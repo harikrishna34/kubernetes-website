@@ -53,6 +53,9 @@ kubectl delete pod foo --force
 
 # Видалити всі Podʼи
 kubectl delete pods --all
+
+# Видаляє всі Podʼи, тільки якщо користувач підтвердить видалення
+kubectl delete pods --all --interactive
 ```
 
 ## {{% heading "options" %}}

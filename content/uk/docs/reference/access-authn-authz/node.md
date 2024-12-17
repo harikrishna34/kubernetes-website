@@ -37,20 +37,34 @@ weight: 34
 Операції, повʼязані з авторизацією:
 
 * доступ на читання/запис
-  [API CertificateSigningRequests](/uk/docs/reference/access-authn-authz/certificate-signing-requests/) для TLS початкового запуску
+  [API CertificateSigningRequests](/docs/reference/access-authn-authz/certificate-signing-requests/) для TLS початкового запуску
 * можливість створювати TokenReview та SubjectAccessReview для делегованої
   автентифікації/авторизації
 
 У майбутніх випусках авторизатор вузлів може додавати або видаляти дозволи, щоб забезпечити kubelet-и мінімальним набором дозволів, необхідних для правильної роботи.
 
-Для того, щоб бути авторизованими авторизатором вузлів, kubelet-и повинні використовувати облікові дані, які ідентифікують їх як членів групи `system:nodes`, з іменем користувача `system:node:<nodeName>`. Цей формат групи та імені користувача відповідає ідентичності, створеній для кожного kubelet-а в рамках [TLS початкового запуску kubelet-а](/uk/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/).
+Для того, щоб бути авторизованими авторизатором вузлів, kubelet-и повинні використовувати облікові дані, які ідентифікують їх як членів групи `system:nodes`, з іменем користувача `system:node:<nodeName>`. Цей формат групи та імені користувача відповідає ідентичності, створеній для кожного kubelet-а в рамках [TLS початкового запуску kubelet-а](/docs/reference/access-authn-authz/kubelet-tls-bootstrapping/).
 
-Значення `<nodeName>` **має** точно відповідати імені вузла, як зареєстровано kubelet-ом. Стандартно це імʼя хосту, надане `hostname`, або замінене за допомогою [опції kubelet](/uk/docs/reference/command-line-tools-reference/kubelet/) `--hostname-override`. Однак, при використанні опції kubelet `--cloud-provider`, конкретне імʼя хосту може бути визначено постачальником хмарних послуг, ігноруючи локальний `hostname` та опцію `--hostname-override`. Для деталей щодо визначення імені хосту kubelet-ом, дивіться [довідник з опцій kubelet](/uk/docs/reference/command-line-tools-reference/kubelet/).
+Значення `<nodeName>` **має** точно відповідати імені вузла, як зареєстровано kubelet-ом. Стандартно це імʼя хосту, надане `hostname`, або замінене за допомогою [опції kubelet](/docs/reference/command-line-tools-reference/kubelet/) `--hostname-override`. Однак, при використанні опції kubelet `--cloud-provider`, конкретне імʼя хосту може бути визначено постачальником хмарних послуг, ігноруючи локальний `hostname` та опцію `--hostname-override`. Для деталей щодо визначення імені хосту kubelet-ом, дивіться [довідник з опцій kubelet](/docs/reference/command-line-tools-reference/kubelet/).
 
-Щоб увімкнути авторизатор вузлів, запустіть apiserver з `--authorization-mode=Node`.
+Щоб увімкнути авторизатор вузла, запустіть {{< glossary_tooltip text="API server" term_id="kube-apiserver" >}} з прапорцем `--authorization-config`, встановленим у файлі, який містить авторизатор `Node`; наприклад:
 
-Щоб обмежити обʼєкти API, які можуть писати kubelet-и, увімкніть [втулок допуску NodeRestriction](/uk/docs/reference/access-authn-authz/admission-controllers#noderestriction)
-шляхом запуску apiserver з `--enable-admission-plugins=...,NodeRestriction,...`.
+```yaml
+apiVersion: apiserver.config.k8s.io/v1
+kind: AuthorizationConfiguration
+authorizers:
+  ...
+  - type: Node
+  ...
+```
+
+Або запустіть {{< glossary_tooltip text="API server" term_id="kube-apiserver" >}} з прапорцем `--authorization-mode`, встановленим на список, розділений комами, який включає `Node`; наприклад:
+
+```shell
+kube-apiserver --authorization-mode=...,Node --other-options --more-options
+```
+
+Щоб обмежити обʼєкти API, які можуть писати kubelet-и, увімкніть [втулок допуску NodeRestriction](/docs/reference/access-authn-authz/admission-controllers#noderestriction) шляхом запуску apiserver з `--enable-admission-plugins=...,NodeRestriction,...`.
 
 ## Міркування щодо міграції {#migration-considerations}
 

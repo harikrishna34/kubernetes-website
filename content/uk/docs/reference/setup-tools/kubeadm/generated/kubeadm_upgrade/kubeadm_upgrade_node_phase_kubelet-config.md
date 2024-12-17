@@ -3,7 +3,7 @@
 
 ### Опис {#synopsis}
 
-Завантажує конфігурацію kubelet з файлу kubelet-config ConfigMap, що зберігається в кластері
+Оновлення конфігурації kubelet для цього вузла, завантаживши її з файлу kubelet-config ConfigMap, що зберігається у кластері
 
 ```shell
 kubeadm upgrade node phase kubelet-config [flags]
@@ -18,6 +18,13 @@ kubeadm upgrade node phase kubelet-config [flags]
     </colgroup>
     <tbody>
         <tr>
+            <td colspan="2">--config string</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Шлях до конфігураційного файлу kubeadm.</p></td>
+        </tr>
+        <tr>
             <td colspan="2">--dry-run</td>
         </tr>
         <tr>
@@ -31,7 +38,7 @@ kubeadm upgrade node phase kubelet-config [flags]
             <td></td>
             <td style="line-height: 130%; word-wrap: break-word;"><p>Довідка kubelet-config</p></td>
         </tr>
-         <tr>
+        <tr>
             <td colspan="2">--kubeconfig string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Типово: "/etc/kubernetes/admin.conf"</td>
         </tr>
         <tr>

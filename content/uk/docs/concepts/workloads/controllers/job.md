@@ -88,7 +88,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   annotations: batch.kubernetes.io/job-tracking: ""
-             ...  
+             ...
   creationTimestamp: "2022-11-10T17:53:53Z"
   generation: 1
   labels:
@@ -252,7 +252,7 @@ kubectl logs job/pi
   - Мітка Podʼа `batch.kubernetes.io/job-completion-index` (для v1.28 і новіших). Зверніть увагу, що для використання цієї мітки механізм feature gate `PodIndexLabel` повинен бути увімкнений, і він є типово увімкненим.
   - Як частина імені хоста Podʼа, за шаблоном `$(job-name)-$(index)`. Коли ви використовуєте Індексоване Завдання у поєднанні з {{< glossary_tooltip term_id="Service" >}}, Podʼи всередині завдання можуть використовувати детерміністичні імена хостів для адресації одне одного через DNS. Докладні відомості щодо того, як налаштувати це, див. [Завдання з комунікацією від Podʼа до Podʼа](/docs/tasks/job/job-with-pod-to-pod-communication/).
   - З контейнера завдання, в змінній середовища `JOB_COMPLETION_INDEX`.
-  
+
   Завдання вважається завершеним, коли є успішно завершений Pod для кожного індексу. Докладні відомості щодо того, як використовувати цей режим, див. [Індексоване завдання для паралельної обробки зі статичним призначенням роботи](/docs/tasks/job/indexed-parallel-processing-static/).
 
 {{< note >}}
@@ -491,7 +491,7 @@ Job має два можливих термінальних стани, коже
 
 У Kubernetes v1.30 та раніших версіях контролер завдань додавав термінальні умови `Complete` або `Failed` відразу після того, як був запущений процес завершення завдання та всі завершувачі Podʼа були видалені. Однак деякі Podʼи все ще могли працювати або завершуватися в момент додавання термінальної умови.
 
-У Kubernetes v1.31 та пізніших версіях контролер додає термінальні умови завдання лише *після* завершення всіх Podʼів. Ви можете увімкнути цю поведінку, використовуючи [функціональні можливості](/docs/reference/command-line-tools-reference/feature-gates/) `JobManagedBy` або `JobPodReplacementPolicy` (стандартно увімкнено).
+У Kubernetes v1.31 та пізніших версіях контролер додає термінальні умови завдання лише *після* завершення всіх Podʼів. Ви можете увімкнути цю поведінку, використовуючи [функціональні можливості](/docs/reference/command-line-tools-reference/feature-gates/) `JobManagedBy` та `JobPodReplacementPolicy` (обидві стандартно увімкнені).
 
 ### Завершення Podʼів завдання {#termination-of-job-pods}
 
@@ -797,7 +797,7 @@ status:
 {{< feature-state feature_gate_name="JobManagedBy" >}}
 
 {{< note >}}
-Ви можете встановити поле `managedBy` для Job лише в разі увімкнення [функціональної можливості](/docs/reference/command-line-tools-reference/feature-gates/) `JobManagedBy` (типово вимкнено).
+Ви можете встановити поле `managedBy` для Job лише в разі увімкнення [функціональної можливості](/docs/reference/command-line-tools-reference/feature-gates/) `JobManagedBy` (типово увімкнено).
 {{< /note >}}
 
 Ця функція дозволяє вам вимкнути вбудований контролер Job для конкретного Завдання і делегувати узгодження цього Завдання зовнішньому контролеру.

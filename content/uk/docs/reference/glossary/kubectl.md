@@ -16,6 +16,9 @@ tags:
 Інструмент командного рядка для взаємодії із кластером Kubernetes,
 {{< glossary_tooltip text="панеллю управління" term_id="control-plane" >}}, використовуючи API Kubernetes.
 
-<!--more--> 
+<!--more-->
 
 Ви можете використовувати `kubectl` для створення, перегляду, оновлення та видалення обʼєктів Kubernetes.
+
+<!-- localization note: OK to omit the rest of this entry -->
+Англійською, `kubectl` (офіційно) вимовляється як /kjuːb/ /kənˈtɹəʊl/ (типу "cube control").

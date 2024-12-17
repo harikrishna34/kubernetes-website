@@ -12,12 +12,12 @@ no_list: true
 
 Команда бере кілька ресурсів і чекає, доки у полі стану кожного з них не зʼявиться вказана умова.
 
-Крім того, команда може чекати на видалення заданого набору ресурсів, вказавши ключове слово "delete" як значення прапорця `--for`.
+Крім того, команда може чекати на створення або видалення заданого набору ресурсів, вказавши ключове слово "create" чи "delete" як значення прапорця `--for`.
 
 Успішне повідомлення буде виведено у stdout із зазначенням того, що вказану умову було виконано. Ви можете скористатися опцією `-o`, щоб змінити місце виведення.
 
 ```shell
-kubectl wait ([-f FILENAME] | resource.group/resource.name | resource.group [(-l label | --all)]) [--for=delete|--for condition=available|--for=jsonpath='{}'[=value]]
+kubectl wait ([-f FILENAME] | resource.group/resource.name | resource.group [(-l label | --all)]) [--for=create|--for=delete|--for condition=available|--for=jsonpath='{}'[=value]]
 ```
 
 ## {{% heading "examples" %}}
@@ -37,6 +37,10 @@ kubectl wait --for='jsonpath={.status.conditions[?(@.type=="Ready")].status}=Tru
 
 # Очікувати, поки сервіс "loadbalancer" не матиме ingress
 kubectl wait --for=jsonpath='{.status.loadBalancer.ingress}' service/loadbalancer
+
+# Очікувати створення секретного "busybox1" з таймаутом у 30с
+kubectl create secret generic busybox1
+kubectl wait --for=create secret/busybox1 --timeout=30s
 
 # Очікувати, поки Pod "busybox1" не буде видалено, з таймаутом 60с, після виконання команди "delete"
 kubectl delete pod/busybox1
@@ -91,7 +95,7 @@ kubectl wait --for=delete pod/busybox1 --timeout=60s
         </tr>
         <tr>
             <td></td>
-            <td style="line-height: 130%; word-wrap: break-word;"><p>Умова для очікування: [delete|condition=ім' condition-name[=condition-value]|jsonpath='{JSONPath expression}'=[JSONPath value]]. Стандартне значення condition-value дорівнює true.  Значення умови порівнюються після простого згортання регістру Unicode, що є більш загальною формою нечутливості до регістру.</p></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Умова для очікування: [create|delete|condition=condition-name[=condition-value]|jsonpath='{JSONPath expression}'=[JSONPath value]]. Стандартне значення condition-value дорівнює true.  Значення умови порівнюються після простого згортання регістру Unicode, що є більш загальною формою нечутливості до регістру.</p></td>
         </tr>
         <tr>
             <td colspan="2">-h, --help</td>

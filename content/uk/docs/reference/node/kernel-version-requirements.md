@@ -25,6 +25,8 @@ Code: https://github.com/kubernetes/kubernetes/blob/00236ae0d73d2455a2470469ed10
 - `net.ipv4.tcp_keepalive_intvl` (з Kubernetes 1.29, потребує ядро 4.5+);
 - `net.ipv4.tcp_keepalive_probes` (з Kubernetes 1.29, потребує ядро 4.5+);
 - `net.ipv4.tcp_syncookies` (з ізоляцією в просторі імен з ядра 4.6+);
+- `net.ipv4.tcp_rmem` (з Kubernetes 1.32, потребує ядро 4.15+).
+- `net.ipv4.tcp_wmem` (з Kubernetes 1.32, потребує ядро 4.15+).
 - `net.ipv4.vs.conn_reuse_mode` (використовується в режимі проксі `ipvs`, потребує ядро 4.1+);
 
 ### Режим проксі `nftables` в kube-proxy {#kube-proxy-nftables-proxy-mode}

@@ -40,7 +40,7 @@ kubectl describe node <insert-node-name-here>
 {{< table caption = "Стан вузлів та опис, коли кожен стан застосовується." >}}
 | Умова вузла          | Опис |
 |----------------------|------|
-| `Ready`              | `True`, якщо вузол справний та готовий приймати Podʼи, `False`, якщо вузол не справний і не приймає Podʼи, та `Unknown`, якщо контролер вузла не отримав інформацію від вузла протягом останнього `node-monitor-grace-period` (стандартно 40 секунд) |
+| `Ready`              | `True`, якщо вузол справний та готовий приймати Podʼи, `False`, якщо вузол не справний і не приймає Podʼи, та `Unknown`, якщо контролер вузла не отримав інформацію від вузла протягом останнього `node-monitor-grace-period` (стандартно 50 секунд) |
 | `DiskPressure`       | `True`, якщо є тиск на розмір диска, тобто якщо місткість диска низька; інакше `False` |
 | `MemoryPressure`     | `True`, якщо є тиск на памʼять вузла, тобто якщо памʼять вузла низька; інакше `False` |
 | `PIDPressure`        | `True`, якщо є тиск на процеси, тобто якщо на вузлі занадто багато процесів; інакше `False` |
@@ -66,7 +66,7 @@ kubectl describe node <insert-node-name-here>
 ]
 ```
 
-Коли на вузлах виникають проблеми, панель управління Kubernetes автоматично створює [taints](/uk/docs/concepts/scheduling-eviction/taint-and-toleration/), які відповідають станам, що впливають на вузол. Прикладом цього є ситуація, коли `status` стану Ready залишається `Unknown` або `False` довше, ніж налаштований інтервал NodeMonitorGracePeriod у kube-controller-manager, який стандартно становить 40 секунд. Це спричинить додавання на вузол taint `node.kubernetes.io/unreachable` для статусу `Unknown` або taint `node.kubernetes.io/not-ready` для статусу `False`.
+Коли на вузлах виникають проблеми, панель управління Kubernetes автоматично створює [taints](/uk/docs/concepts/scheduling-eviction/taint-and-toleration/), які відповідають станам, що впливають на вузол. Прикладом цього є ситуація, коли `status` стану Ready залишається `Unknown` або `False` довше, ніж налаштований інтервал NodeMonitorGracePeriod у kube-controller-manager, який стандартно становить 50 секунд. Це спричинить додавання на вузол taint `node.kubernetes.io/unreachable` для статусу `Unknown` або taint `node.kubernetes.io/not-ready` для статусу `False`.
 
 Ці taints впливають на Podʼи, що перебувають в очікуванні, оскільки планувальник враховує taints вузла при призначенні Podʼів на вузол. Наявні Podʼи, заплановані на вузол, можуть бути виселені через застосування taints типу `NoExecute`. Podʼи також можуть мати {{< glossary_tooltip text="tolerations" term_id="toleration" >}}, що дозволяє їм бути запланованими та продовжувати працювати на вузлі, навіть якщо на ньому є певний taint.
 

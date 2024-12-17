@@ -6,7 +6,7 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: alpha
     defaultValue: false
     fromVersion: "1.28"
     toVersion: "1.28"
@@ -17,5 +17,9 @@ stages:
   - stage: stable
     defaultValue: true
     fromVersion: "1.30"
+    toVersion: "1.31"
+removed: true
+
 ---
+
 Вмикає поле `status.hostIPs` для Podʼів та {{< glossary_tooltip term_id="downward-api" text="downward API" >}}. Це поле дозволяє вам показувати IP-адреси хостів робочим навантаженням.

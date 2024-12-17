@@ -121,7 +121,7 @@ content_type: concept
 {{< tabs name="tab-kubelet-finalize" >}}
 {{< tab name="kubelet-finalize" include="generated/kubeadm_init/kubeadm_init_phase_kubelet-finalize.md" />}}
 {{< tab name="kubelet-finalize-all" include="generated/kubeadm_init/kubeadm_init_phase_kubelet-finalize_all.md" />}}
-{{< tab name="kubelet-finalize-cert-rotation" include="generated/kubeadm_init/kubeadm_init_phase_kubelet-finalize_experimental-cert-rotation.md" />}}
+{{< tab name="kubelet-finalize-enable-client-cert-rotation" include="generated/kubeadm_init/kubeadm_init_phase_kubelet-finalize_enable-client-cert-rotation.md" />}}
 {{< /tabs >}}
 
 ## kubeadm init phase addon {#cmd-phase-addon}

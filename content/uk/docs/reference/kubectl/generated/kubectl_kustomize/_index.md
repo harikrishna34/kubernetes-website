@@ -78,6 +78,13 @@ kubectl kustomize https://github.com/kubernetes-sigs/kustomize.git/examples/hell
             <td style="line-height: 130%; word-wrap: break-word;"><p>команда helm (шлях до виконавчого файлу)</p></td>
         </tr>
         <tr>
+            <td colspan="2">--helm-debug</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Увімкнути налагоджувальний вивід з генератора інфлятора чартів Helm.</p></td>
+        </tr>
+        <tr>
             <td colspan="2">--helm-kube-version string</td>
         </tr>
         <tr>

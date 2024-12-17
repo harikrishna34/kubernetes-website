@@ -6,16 +6,20 @@ _build:
   render: false
 
 stages:
-  - stage: alpha 
+  - stage: alpha
     defaultValue: false
     fromVersion: "1.14"
     toVersion: "1.15"
   - stage: beta
     defaultValue: true
-    fromVersion: "1.16"  
-    toVersion: "1.21" 
+    fromVersion: "1.16"
+    toVersion: "1.21"
   - stage: stable
     defaultValue: true
-    fromVersion: "1.22"  
+    fromVersion: "1.22"
+    toVersion: "1.31"
+
+removed: true
 ---
-Вмикає функцію [Server Side Apply (SSA)](/uk/docs/reference/using-api/server-side-apply/) на сервері API.
+
+Вмикає функцію [Server Side Apply (SSA)](/docs/reference/using-api/server-side-apply/) на сервері API.

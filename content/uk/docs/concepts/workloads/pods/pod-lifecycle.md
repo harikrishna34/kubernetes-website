@@ -144,6 +144,29 @@ Kubernetes порається з відмовами контейнерів в м
 
 Коли kubelet обробляє перезапуск контейнера згідно з налаштованою політикою перезапуску, це стосується лише перезапусків, які призводять до заміни контейнерів всередині того ж Podʼа та на тому ж вузлі. Після завершення контейнерів у Podʼі, kubelet перезапускає їх із затримкою, що зростає експоненційно (10 с, 20 с, 40 с, …), і обмеженою пʼятьма хвилинами (300 секунд). Якщо контейнер виконується протягом 10 хвилин без проблем, kubelet скидає таймер затримки перезапуску для цього контейнера. [Контейнери Sidecar та життєвий цикл Podʼа](/docs/concepts/workloads/pods/sidecar-containers/#sidecar-containers-and-pod-lifecycle) пояснює поведінку `контейнерів ініціалізації` при вказанні поля `restartpolicy` для нього.
 
+### Налаштовувана затримка перезапуску контейнера {#configurable-container-restart-delay}
+
+{{< feature-state feature_gate_name="KubeletCrashLoopBackOffMax" >}}
+
+З увімкненою альфа-функцією `KubeletCrashLoopBackOffMax` ви можете змінити максимальну затримку між повторними спробами запуску контейнера, яка стандартно становить 300 секунд (5 хвилин). Ця конфігурація встановлюється для кожного вузла за допомогою конфігурації kubelet. У вашій [конфігурації kubelet](/docs/tasks/administer-cluster/kubelet-config-file/) у полі `crashLoopBackOff` встановіть значення поля `maxContainerRestartPeriod` між `1s` і `300s`. Як описано вище у [Політиці перезапуску контейнерів](#restart-policy), затримки на цьому вузлі все одно починатимуться з 10 секунд і збільшуватимуться експоненціально у 2 рази при кожному перезапуску, але тепер вони будуть обмежені вашим налаштованим максимумом. Якщо значення `maxContainerRestartPeriod`, яке ви налаштували, менше початкового стандартного значення у 10 секунд, початкова затримка буде встановлена на максимальне значення.
+
+Дивіться наступні приклади налаштування kubelet:
+
+```yaml
+# затримки перезапуску контейнерів починаються з 10 секунд і збільшуються
+# в 2 рази при кожному перезапуску, максимум до 100с
+kind: KubeletConfiguration
+crashLoopBackOff:
+    maxContainerRestartPeriod: "100s"
+```
+
+```yaml
+# затримки між перезапусками контейнера завжди будуть дорівнювати 2s
+kind: KubeletConfiguration
+crashLoopBackOff:
+    maxContainerRestartPeriod: "2s"
+```
+
 ## Стани Podʼа {#pod-conditions}
 
 У Podʼа є статус, який містить масив [PodConditions](/docs/reference/generated/kubernetes-api/{{< param "version" >}}/#podcondition-v1-core), через які Pod проходить чи не проходить. Kubelet управляє наступними PodConditions:
@@ -386,7 +409,7 @@ Kubelet може опціонально виконувати та реагува
 
 1. є осиротілими Podʼами — привʼязаними до вузла, якого вже не існує,
 2. є незапланованими Podʼами у стані завершення,
-3. є Podʼами у стані завершення, привʼязаними до непрацюючого вузла з позначкою [`node.kubernetes.io/out-of-service`](/docs/reference/labels-annotations-taints/#node-kubernetes-io-out-of-service),    коли ввімкнено функціонал `NodeOutOfServiceVolumeDetach`.
+3. є Podʼами у стані завершення, привʼязаними до непрацюючого вузла з позначкою [`node.kubernetes.io/out-of-service`](/docs/reference/labels-annotations-taints/#node-kubernetes-io-out-of-service).
 
 Разом із прибиранням Podʼів, PodGC також позначає їх як несправнені, якщо вони перебувають в незавершеній фазі. Крім того, PodGC додає стан руйнування Podʼа під час очищення осиротілого Podʼа. Див. [стани руйнування Podʼів](/docs/concepts/workloads/pods/disruptions#pod-disruption-conditions)
 для отримання докладніших відомостей.

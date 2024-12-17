@@ -107,7 +107,7 @@ profile k8s-apparmor-example-deny-write flags=(attach_disconnected) {
 
 ```shell
 # Цей приклад передбачає, що імена вузлів відповідають іменам хостів і доступні через SSH.
-NODES=($(kubectl get nodes -o name))
+NODES=($( kubectl get node -o jsonpath='{.items[*].status.addresses[?(.type == "Hostname")].address}' ))
 
 for NODE in ${NODES[*]}; do ssh $NODE 'sudo apparmor_parser -q <<EOF
 #include <tunables/global>
@@ -193,7 +193,7 @@ Start Time:    Tue, 30 Aug 2016 17:58:56 -0700
 Labels:        <none>
 Annotations:   container.apparmor.security.beta.kubernetes.io/hello=localhost/k8s-apparmor-example-allow-write
 Status:        Pending
-... 
+...
 Events:
   Type     Reason     Age              From               Message
   ----     ------     ----             ----               -------
@@ -207,7 +207,7 @@ Events:
 Event надає повідомлення про помилку з причиною, конкретне формулювання залежить від виконавчого середовища:
 
 ```none
-  Warning  Failed     7s (x2 over 8s)  kubelet            Error: failed to get container spec opts: failed to generate apparmor spec opts: apparmor profile not found 
+  Warning  Failed     7s (x2 over 8s)  kubelet            Error: failed to get container spec opts: failed to generate apparmor spec opts: apparmor profile not found
 ```
 
 ## Адміністрування {#administration}

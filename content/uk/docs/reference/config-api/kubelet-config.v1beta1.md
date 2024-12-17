@@ -616,6 +616,13 @@ webhook:
    <p>cpuManagerPolicy - назва політики, яку буде використано. Потребує увімкнення функціональних можливостей CPUManager. Стандартно: &quot;None&quot;</p>
 </td>
 </tr>
+<tr><td><code>singleProcessOOMKill</code><br/>
+<code>bool</code>
+</td>
+<td>
+   <p>singleProcessOOMKill, якщо встановлено, запобігає встановленню прапорця <code>memory.oom.group</code> для контейнерних cgroups у cgroups v2. Це призводить до того, що процеси у контейнері буде знищено за допомогою OOM індивідуально, а не як групу. Це означає, що якщо прапорець має значення true, поведінка узгоджується з поведінкою cgroups v1. Стандартне значення визначається автоматично, якщо ви його не вкажете. У не-linux, таких як windows, дозволено лише null / absent. У cgroup v1 linux дозволено лише null / absent та true. У cgroup v2 linux дозволені значення null / absent, true і false. Стандартне значення — false.</p>
+</td>
+</tr>
 <tr><td><code>cpuManagerPolicyOptions</code><br/>
 <code>map[string]string</code>
 </td>
@@ -832,7 +839,7 @@ imagefs.available: &quot;15%&quot;</pre></p>
 <code>int32</code>
 </td>
 <td>
-   <p>evictionMaxPodGracePeriod - це максимально дозволений пільговий період (у секундах), який можна використовувати при завершенні роботи pods у відповідь на досягнення порогу мʼякого виселення. Це значення фактично обмежує значення terminationGracePeriodSeconds під час мʼякого виселення. Примітка: У звʼязку з issue #64530 у поведінці є помилка, коли це значення наразі просто перевизначає пільговий період під час мʼякого виселення, що може збільшити пільговий період порівняно з тим, що встановлено в Pod. Ця помилка буде виправлена в наступному випуску. Стандартно: 0</p>
+   <p>evictionMaxPodGracePeriod - це максимально дозволений пільговий період (у секундах), який можна використовувати при завершенні роботи pods у відповідь на досягнення порогу мʼякого виселення. Це значення фактично обмежує значення terminationGracePeriodSeconds під час мʼякого виселення.  Стандартно: 0</p>
 </td>
 </tr>
 <tr><td><code>evictionMinimumReclaim</code><br/>
@@ -950,14 +957,15 @@ imagefs.available: &quot;15%&quot;</pre></p>
 <code>map[string]string</code>
 </td>
 <td>
-   <p>systemReserved - це набір пар ResourceName=ResourceQuantity (наприклад, cpu=200m,memory=150G), які описують ресурси, зарезервовані для компонентів, що не належать до kubernetes. Наразі підтримуються лише процесор і памʼять. Дивіться <a href="/uk/docs/user-guide/compute-resources">http://kubernetes.io/docs/user-guide/compute-resources</a> для більш детальної інформації. Стандартно: nil</p>
+   <p>systemReserved - це набір пар ResourceName=ResourceQuantity (наприклад, cpu=200m,memory=150G), які описують ресурси, зарезервовані для компонентів, що не належать до kubernetes. Наразі підтримуються лише процесор і памʼять. Дивіться <a href="
+   /uk/docs/tasks/administer-cluster/reserve-compute-resources">https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources</a> для більш детальної інформації. Стандартно: nil</p>
 </td>
 </tr>
 <tr><td><code>kubeReserved</code><br/>
 <code>map[string]string</code>
 </td>
 <td>
-   <p>kubeReserved — це набір пар ResourceName=ResourceQuantity (наприклад, cpu=200m,memory=150G), які описують ресурси, зарезервовані для компонентів системи kubernetes. Наразі підтримуються процесор, памʼять та локальне сховище для кореневої файлової системи. Більш детальну інформацію можна знайти на сторінці <a href="/uk/docs/concepts/configuration/manage-resources-containers/">https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/</a>. Стандартно: nil</p>
+   <p>kubeReserved — це набір пар ResourceName=ResourceQuantity (наприклад, cpu=200m,memory=150G), які описують ресурси, зарезервовані для компонентів системи kubernetes. Наразі підтримуються процесор, памʼять та локальне сховище для кореневої файлової системи. Більш детальну інформацію можна знайти на сторінці <a href="/uk/docs/tasks/administer-cluster/reserve-compute-resources">https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources</a>. Стандартно: nil</p>
 </td>
 </tr>
 <tr><td><code>reservedSystemCPUs</code> <b>[Обовʼязково]</b><br/>
@@ -1074,6 +1082,13 @@ shutdownGracePeriodSeconds: 30</li>
 <p>Час, який Kubelet чекатиме перед завершенням роботи, буде максимумом з усіх shutdownGracePeriodSeconds для кожного діапазону класів пріоритету, представленого на вузлі. Коли всі Podʼи завершать роботу або досягнуть своїх періодівналежного завершення, Kubelet звільнить блокування інгібіції завершення роботи. Потрібно, щоб була ввімкнена функція GracefulNodeShutdown. Ця конфігурація має бути порожньою, якщо встановлено або ShutdownGracePeriod, або ShutdownGracePeriodCriticalPods. Стандартно: nil</p>
 </td>
 </tr>
+<tr><td><code>crashLoopBackOff</code><br/>
+<a href="#kubelet-config-k8s-io-v1beta1-CrashLoopBackOffConfig"><code>CrashLoopBackOffConfig</code></a>
+</td>
+<td>
+   <p>CrashLoopBackOff містить конфіг для зміни параметрів на рівні вузла для поведінки перезапуску контейнера</p>
+</td>
+</tr>
 <tr><td><code>reservedMemory</code><br/>
 <a href="#kubelet-config-k8s-io-v1beta1-MemoryReservation"><code>[]MemoryReservation</code></a>
 </td>
@@ -1120,7 +1135,7 @@ shutdownGracePeriodSeconds: 30</li>
 </td>
 </tr>
 <tr><td><code>registerWithTaints</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#taint-v1-core"><code>[]core/v1.Taint</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#taint-v1-core"><code>[]core/v1.Taint</code></a>
 </td>
 <td>
    <p>registerWithTaints — це масив "taints" (міток) для додавання до обʼєкта вузла під час реєстрації kubelet. Набирає чинності лише тоді, коли параметр registerNode встановлено в значення true і під час початкової реєстрації вузла. Стандартно: nil</p>
@@ -1180,15 +1195,35 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-    
+
 <tr><td><code>apiVersion</code><br/>string</td><td><code>kubelet.config.k8s.io/v1beta1</code></td></tr>
 <tr><td><code>kind</code><br/>string</td><td><code>SerializedNodeConfigSource</code></td></tr>
-    
+
 <tr><td><code>source</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#nodeconfigsource-v1-core"><code>core/v1.NodeConfigSource</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#nodeconfigsource-v1-core"><code>core/v1.NodeConfigSource</code></a>
 </td>
 <td>
    <p>source є джерелом, яке ми серіалізуємо.</p>
+</td>
+</tr>
+</tbody>
+</table>
+
+## `CrashLoopBackOffConfig` {#kubelet-config-k8s-io-v1beta1-CrashLoopBackOffConfig}
+
+
+**Зʼявляється в:**
+
+- [KubeletConfiguration](#kubelet-config-k8s-io-v1beta1-KubeletConfiguration)
+
+<table class="table">
+<thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
+<tbody>
+<tr><td><code>maxContainerRestartPeriod</code><br/>
+<a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
+</td>
+<td>
+   <p>maxContainerRestartPeriod - максимальна тривалість затримки при перезапуску контейнера, мінімум 1 секунда, максимум 300 секунд. Якщо не задано, стандартно використовується внутрішній максимум затримки при повторному запуску контейнера (300 секунд).</p>
 </td>
 </tr>
 </tbody>
@@ -1205,7 +1240,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-    
+
 <tr><td><code>name</code> <b>[Обовʼязково]</b><br/>
 <code>string</code>
 </td>
@@ -1280,7 +1315,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>name</code> <b>[Обовʼязково]</b><br/>
 <code>string</code>
 </td>
@@ -1307,7 +1342,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>enabled</code><br/>
 <code>bool</code>
 </td>
@@ -1327,7 +1362,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>x509</code><br/>
 <a href="#kubelet-config-k8s-io-v1beta1-KubeletX509Authentication"><code>KubeletX509Authentication</code></a>
 </td>
@@ -1361,7 +1396,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>mode</code><br/>
 <a href="#kubelet-config-k8s-io-v1beta1-KubeletAuthorizationMode"><code>KubeletAuthorizationMode</code></a>
 </td>
@@ -1380,7 +1415,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 </table>
 
 ## `KubeletAuthorizationMode`     {#kubelet-config-k8s-io-v1beta1-KubeletAuthorizationMode}
-    
+
 (Аліас до `string`)
 
 **Зʼявляється в:**
@@ -1396,7 +1431,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>enabled</code><br/>
 <code>bool</code>
 </td>
@@ -1423,7 +1458,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>cacheAuthorizedTTL</code><br/>
 <a href="https://pkg.go.dev/k8s.io/apimachinery/pkg/apis/meta/v1#Duration"><code>meta/v1.Duration</code></a>
 </td>
@@ -1450,7 +1485,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>clientCAFile</code><br/>
 <code>string</code>
 </td>
@@ -1472,7 +1507,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>numaNode</code> <b>[Обовʼязково]</b><br/>
 <code>int32</code>
 </td>
@@ -1480,7 +1515,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
    <span class="text-muted">Номер NUMA вузла, для якого задається резервування памʼяті.</span></td>
 </tr>
 <tr><td><code>limits</code> <b>[Обовʼязково]</b><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#resourcelist-v1-core"><code>core/v1.ResourceList</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#resourcelist-v1-core"><code>core/v1.ResourceList</code></a>
 </td>
 <td>
    <span class="text-muted">Список ресурсів для резервування, які визначають обмеження памʼяті.</span></td>
@@ -1497,7 +1532,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>swapBehavior</code><br/>
 <code>string</code>
 </td>
@@ -1534,7 +1569,7 @@ SerializedNodeConfigSource дозволяє серіалізувати v1.NodeCo
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>priority</code> <b>[Обовʼязкове]</b><br/>
 <code>int32</code>
 </td>

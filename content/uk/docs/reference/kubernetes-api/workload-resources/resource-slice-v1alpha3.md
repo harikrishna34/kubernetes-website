@@ -36,7 +36,7 @@ ResourceSlice представляє один або кілька ресурсі
 
 - **metadata** (<a href="{{< ref "../common-definitions/object-meta#ObjectMeta" >}}">ObjectMeta</a>)
 
-  Стандартні мета дані обʼєкта
+  Стандартні метадані обʼєкта
 
 - **spec** (<a href="{{< ref "../workload-resources/resource-slice-v1alpha3#ResourceSliceSpec" >}}">ResourceSliceSpec</a>), обовʼязково
 

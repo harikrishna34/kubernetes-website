@@ -302,7 +302,7 @@ NodeAffinityArgs містить аргументи для налаштуванн
 <tr><td><code>apiVersion</code><br/>string</td><td><code>kubescheduler.config.k8s.io/v1</code></td></tr>
 <tr><td><code>kind</code><br/>string</td><td><code>NodeAffinityArgs</code></td></tr>
 <tr><td><code>addedAffinity</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#nodeaffinity-v1-core"><code>core/v1.NodeAffinity</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#nodeaffinity-v1-core"><code>core/v1.NodeAffinity</code></a>
 </td>
 <td>
    <p>AddedAffinity застосовується до всіх Podʼів додатково до NodeAffinity, вказаного в PodSpec. Тобто вузли повинні відповідати AddedAffinity І .spec.NodeAffinity. AddedAffinity є станадртно порожнім (є збіг зі всіма вузлами). Коли використовується AddedAffinity, деякі Podʼи з вимогами щодо спорідненості, які збігаються з конкретним вузлом (наприклад, Podʼи Daemonset), можуть залишатися непридатними для планування.</p>
@@ -374,7 +374,7 @@ PodTopologySpreadArgs містить аргументи для налаштув�
 <tr><td><code>apiVersion</code><br/>string</td><td><code>kubescheduler.config.k8s.io/v1</code></td></tr>
 <tr><td><code>kind</code><br/>string</td><td><code>PodTopologySpreadArgs</code></td></tr>
 <tr><td><code>defaultConstraints</code><br/>
-<a href="/docs/reference/generated/kubernetes-api/v1.31/#topologyspreadconstraint-v1-core"><code>[]core/v1.TopologySpreadConstraint</code></a>
+<a href="/docs/reference/generated/kubernetes-api/v1.32/#topologyspreadconstraint-v1-core"><code>[]core/v1.TopologySpreadConstraint</code></a>
 </td>
 <td>
    <p>DefaultConstraints визначає обмеження на розподіл топології, які будуть застосовані до Podʼів, що не мають визначених обмежень у <code>pod.spec.topologySpreadConstraints</code>. <code>.defaultConstraints[*].labelSelectors</code> повинні бути порожніми, оскільки вони виводяться з приналежності Podʼа до Services, ReplicationControllers, ReplicaSets або StatefulSets. Якщо не порожньо, .defaultingType має бути &quot;List&quot;.</p>
@@ -760,7 +760,7 @@ PluginConfig визначає аргументи, які повинні бути
 </table>
 
 ## `Plugins` {#kubescheduler-config-k8s-io-v1-Plugins}
-    
+
 **Зʼявляється в:**
 
 - [KubeSchedulerProfile](#kubescheduler-config-k8s-io-v1-KubeSchedulerProfile)
@@ -771,8 +771,8 @@ PluginConfig визначає аргументи, які повинні бути
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-    
-  
+
+
 <tr><td><code>preEnqueue</code> <b>[Обовʼязкове]</b><br/>
 <a href="#kubescheduler-config-k8s-io-v1-PluginSet"><code>PluginSet</code></a>
 </td>
@@ -874,7 +874,7 @@ PluginConfig визначає аргументи, які повинні бути
 </table>
 
 ## `PodTopologySpreadConstraintsDefaulting` {#kubescheduler-config-k8s-io-v1-PodTopologySpreadConstraintsDefaulting}
-    
+
 (Аліас для `string`)
 
 **Зʼявляється в:**
@@ -884,7 +884,7 @@ PluginConfig визначає аргументи, які повинні бути
 <p>PodTopologySpreadConstraintsDefaulting визначає, як встановлювати стандартне значення для втулка PodTopologySpread.</p>
 
 ## `RequestedToCapacityRatioParam` {#kubescheduler-config-k8s-io-v1-RequestedToCapacityRatioParam}
-    
+
 **Зʼявляється в:**
 
 - [ScoringStrategy](#kubescheduler-config-k8s-io-v1-ScoringStrategy)
@@ -905,7 +905,7 @@ RequestedToCapacityRatioParam визначає параметри RequestedToCap
 </table>
 
 ## `ResourceSpec` {#kubescheduler-config-k8s-io-v1-ResourceSpec}
-    
+
 **Зʼявляється в:**
 
 - [NodeResourcesBalancedAllocationArgs](#kubescheduler-config-k8s-io-v1-NodeResourcesBalancedAllocationArgs)
@@ -935,7 +935,7 @@ ResourceSpec представляє один ресурс.
 </table>
 
 ## `ScoringStrategy` {#kubescheduler-config-k8s-io-v1-ScoringStrategy}
-    
+
 
 **Зʼявляється в:**
 
@@ -946,7 +946,7 @@ ScoringStrategy визначає ScoringStrategyType для втулка рес�
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>type</code> <b>[Обовʼязково]</b><br/>
 <a href="#kubescheduler-config-k8s-io-v1-ScoringStrategyType"><code>ScoringStrategyType</code></a>
 </td>
@@ -972,7 +972,7 @@ ScoringStrategy визначає ScoringStrategyType для втулка рес�
 </table>
 
 ## `ScoringStrategyType`     {#kubescheduler-config-k8s-io-v1-ScoringStrategyType}
-    
+
 (Аліас `string`)
 
 **Зʼявляється в:**
@@ -995,7 +995,7 @@ UtilizationShapePoint представляє окрему точку функц�
 <table class="table">
 <thead><tr><th width="30%">Поле</th><th>Опис</th></tr></thead>
 <tbody>
-  
+
 <tr><td><code>utilization</code> <b>[Обовʼязково]</b><br/>
 <code>int32</code>
 </td>

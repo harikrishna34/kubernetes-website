@@ -13,5 +13,10 @@ stages:
   - stage: beta
     defaultValue: true
     fromVersion: "1.31"
+    toVersion: "1.31"
+  - stage: stable
+    defaultValue: true
+    fromVersion: "1.32"
 ---
+
 Вмикає `selectableFields` в API {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}}, щоб дозволити фільтрацію запитів **list**, **watch** та **deletecollection** для власних ресурсів.

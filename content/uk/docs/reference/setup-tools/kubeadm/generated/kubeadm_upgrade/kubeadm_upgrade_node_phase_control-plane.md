@@ -25,6 +25,13 @@ kubeadm upgrade node phase control-plane [flags]
             <td style="line-height: 130%; word-wrap: break-word;"><p>Виконує оновлення сертифікатів, які використовуються компонентами під час оновлення.</p></td>
         </tr>
         <tr>
+            <td colspan="2">--config string</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Шлях до конфігураційного файлу kubeadm.</p></td>
+        </tr>
+        <tr>
             <td colspan="2">--dry-run</td>
         </tr>
         <tr>

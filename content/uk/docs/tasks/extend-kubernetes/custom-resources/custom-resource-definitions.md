@@ -1441,7 +1441,7 @@ my-new-cron-object   * * * * *   1          7s
 
 {{< feature-state feature_gate_name="CustomResourceFieldSelectors" >}}
 
-Для Kubernetes {{< skew currentVersion >}} можливість визначати селектори полів для власних ресурсів доступна стандартно (стандартно увімкнена з Kubernetes v1.31); ви можете вимкнути цю функцію для вашого кластера, відключивши [функціональну можливість](/docs/reference/command-line-tools-reference/feature-gates/) `CustomResourceFieldSelectors`. Поле `spec.versions[*].selectableFields` у {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} може бути використане для оголошення, які інші поля у власному ресурсі можуть бути використані у селекторах полів з [функціональною можливісюь](/docs/reference/command-line-tools-reference/feature-gates/) `CustomResourceFieldSelectors` (Ця функція є стандартно увімкненою з Kubernetes v1.31). Ось приклад, який додає поля `.spec.color` та `.spec.size` як доступні для вибору.
+Поле `spec.versions[*].selectableFields` у {{< glossary_tooltip term_id="CustomResourceDefinition" text="CustomResourceDefinition" >}} може бути використане для оголошення, які інші поля у власному ресурсі можуть бути використані у селекторах полів з [функціональною можливісюь](/docs/reference/command-line-tools-reference/feature-gates/) `CustomResourceFieldSelectors` (Ця функція є стандартно увімкненою з Kubernetes v1.31). Ось приклад, який додає поля `.spec.color` та `.spec.size` як доступні для вибору.
 
 Збережіть CustomResourceDefinition у файл `shirt-resource-definition.yaml`:
 

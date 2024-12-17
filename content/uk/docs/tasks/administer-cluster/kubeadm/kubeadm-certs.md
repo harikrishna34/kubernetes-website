@@ -16,6 +16,8 @@ weight: 80
 
 Ви повинні бути знайомі з [сертифікатами PKI та вимогами Kubernetes](/docs/setup/best-practices/certificates/).
 
+Ви маєте знати, як передати файл [configuration](/docs/reference/config-api/kubeadm-config.v1beta4/) командам kubeadm.
+
 Цей посібник описує використання команди `openssl` (використовується для ручного підписання сертифікатів, якщо ви обираєте цей підхід), але ви можете використовувати інші інструменти, яким надаєте перевагу.
 
 Деякі кроки тут використовують `sudo` для адміністративного доступу. Ви можете використовувати будь-який еквівалентний інструмент.
@@ -29,6 +31,32 @@ weight: 80
 Для цього вам потрібно помістити їх у ту теку, яка вказується за допомогою прапорця `--cert-dir` або поля `certificatesDir` конфігурації кластера `ClusterConfiguration` kubeadm. Типово це `/etc/kubernetes/pki`.
 
 Якщо певна пара сертифікатів і приватний ключ існують до запуску `kubeadm init`, kubeadm не перезаписує їх. Це означає, що ви можете, наприклад, скопіювати наявний ЦС (Центр сертифікації — Certificate authority) в `/etc/kubernetes/pki/ca.crt` та `/etc/kubernetes/pki/ca.key`, і kubeadm використовуватиме цей ЦС для підпису решти сертифікатів.
+
+## Вибір алгоритму шифрування {#choosing-encryption-algorithm}
+
+kubeadm дозволяє вибрати алгоритм шифрування, який використовується для створення відкритих і закритих ключів. Це можна зробити за допомогою поля `encryptionAlgorithm` у конфігурації kubeadm:
+
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+encryptionAlgorithm: <ALGORITHM>
+```
+
+`<ALGORITHM>` може бути одним з: `RSA-2048` (стандартно), `RSA-3072`, `RSA-4096` або `ECDSA-P256`.
+
+## Вибір терміну дії сертифіката {#choosing-cert-validity-period}
+
+kubeadm дозволяє вибирати період дії сертифікатів центрів сертифікації та листових сертифікатів. Це можна зробити за допомогою полів `certificateValidityPeriod` і `caCertificateValidityPeriod`
+в конфігурації kubeadm:
+
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+certificateValidityPeriod: 8760h # Стандартно: 365 днів × 24 години = 1 рік
+caCertificateValidityPeriod: 87600h # Стандартно: 365 днів × 24 години * 10 = 10 років
+```
+
+Значення полів відповідають прийнятому формату для значень [Go's `time.Duration`](https://pkg.go.dev/time#ParseDuration), при цьому найдовшою одиницею виміру є `h` (години).
 
 ## Режим зовнішнього ЦС {#external-ca-mode}
 

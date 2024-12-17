@@ -41,8 +41,6 @@ mark-control-plane            Маркування вузла як вузла п
 bootstrap-token               Генерація bootstrap токенів, які використовуються для приєднання вузла до кластера
 kubelet-finalize             Оновлення налаштувань, що стосуються kubelet, після TLS завантаження
   /enable-client-cert-rotation  Ввімкнути ротацію сертифікатів клієнтів kubelet
-  /experimental-cert-rotation   Ввімкнути ротацію сертифікатів клієнтів kubelet (ЗАСТАРІЛО: натомість використовуйте 'enable-client-cert-rotation')
-  /experimental-cert-rotation  Увімкнення ротації сертифікатів клієнта kubelet
 addon                        Встановлення необхідних надбудов для проходження тестів відповідності
   /coredns                     Встановлення надбудови CoreDNS у Kubernetes кластер
   /kube-proxy                  Встановлення надбудови kube-proxy у Kubernetes кластер
@@ -128,11 +126,12 @@ kubeadm init [прапорці]
         <tr>
             <td></td>
             <td style="line-height: 130%; word-wrap: break-word;"><p>Набір пар ключ=значення, що описують функціональні можливості для різних функцій. Опції:<br/>
-                ControlPlaneKubeletLocalMode=true|false (ALPHA — default=false)<br/>
-                EtcdLearnerMode=true|false (BETA — default=true)<br/>
-                PublicKeysECDSA=true|false (DEPRECATED — default=false)<br/>
-                RootlessControlPlane=true|false (ALPHA — default=false)<br/>
-                WaitForAllControlPlaneComponents=true|false (ALPHA — default=false)</p></td>
+                ControlPlaneKubeletLocalMode=true|false (ALPHA - default=false)<br/>
+                EtcdLearnerMode=true|false (default=true)<br/>
+                NodeLocalCRISocket=true|false (ALPHA - default=false)<br/>
+                PublicKeysECDSA=true|false (DEPRECATED - default=false)<br/>
+                RootlessControlPlane=true|false (ALPHA - default=false)<br/>
+                WaitForAllControlPlaneComponents=true|false (ALPHA - default=false)</p></td>
         </tr>
         <tr>
             <td colspan="2">-h, --help</td>
@@ -208,7 +207,8 @@ kubeadm init [прапорці]
             <td colspan="2">--skip-phases strings</td>
         </tr>
         <tr>
-            <td></td><td style="line-height: 130%; word-wrap: break-word;"><p>Список етапів, які потрібно оминути</p></td>
+            <td></td>
+            <td style="line-height: 130%; word-wrap: break-word;"><p>Список етапів, які потрібно оминути</p></td>
         </tr>
         <tr>
             <td colspan="2">--skip-token-print</td>

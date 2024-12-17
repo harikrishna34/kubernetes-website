@@ -160,9 +160,7 @@ ConfigMap `log-config` змонтовано як том, і весь вміст,
 
 Можна вказати обмеження розміру для типового носія, яке обмежує місткість тому `emptyDir`. Простір виділяється з [ефемерного сховища вузла](/docs/concepts/configuration/manage-resources-containers/#setting-requests-and-limits-for-local-ephemeral-storage). Якщо він заповнюється з іншого джерела (наприклад, файли логів чи образи), том `emptyDir` може вийти з ладу через це обмеження.
 
-{{< note >}}
-Ви можете вказати розмір для томів, що зберігаються в памʼяті, за умови, що [фцнкціональну можливість](/docs/reference/command-line-tools-reference/feature-gates/) `SizeMemoryBackedVolumes` увімкнено у вашому кластері (вона була бета-версією та типово активною починаючи з випуску Kubernetes 1.22). Якщо ви не вказуєте розмір тому, томи, що зберігаються в памʼяті, налаштовуються на обсяг доступної памʼяті вузла.
-{{< /note >}}
+Якщо розмір не вказаний, том, що розмішується в памʼяті, буде обмежений обсягом доступної памʼяті вузла.
 
 {{< caution >}}
 Будь ласка, перевірте [тут](/docs/concepts/configuration/manage-resources-containers/#memory-backed-emptydir) пункти, які слід врахувати з точки зору управління ресурсами при використанні `emptyDir`, що зберігаються в памʼяті.
@@ -186,6 +184,27 @@ spec:
   - name: cache-volume
     emptyDir:
       sizeLimit: 500Mi
+```
+
+#### Приклад конфігурації памʼяті emptyDir {#emptydir-memory-configuration-example}
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: registry.k8s.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /cache
+      name: cache-volume
+  volumes:
+  - name: cache-volume
+    emptyDir:
+      sizeLimit: 500Mi
+      medium: Memory
 ```
 
 ### fc (fibre channel) {#fc}
