@@ -13,7 +13,7 @@ an [init container](/docs/concepts/workloads/pods/init-containers/), and utilizi
 
 {{< include "task-tutorial-prereqs.md" >}}
 
-A Kubernetes cluster with at least two nodes (one master node and one worker node) to demonstrate the behavior of DaemonSets.
+A Kubernetes cluster with at least two nodes (one control plane node and one worker node) to demonstrate the behavior of DaemonSets.
 
 ## Building a DaemonSet
 
@@ -23,7 +23,7 @@ while the main container will be a `pause` container, which keeps the Pod runnin
 
 {{% code_sample file="application/basic-daemonset.yaml" %}}
 
-1. Create a Daemonset based on the YAML file:
+1. Create a DaemonSet based on the (YAML) manifest:
 
   ```shell
   kubectl apply -f https://k8s.io/examples/application/basic-daemonset.yaml
@@ -51,14 +51,14 @@ while the main container will be a `pause` container, which keeps the Pod runnin
   
   Where `<pod-name>` is the name of one of your Pods.
 
-1. To clean up the Daemonset and its Pods:
+## {{% heading "cleanup" %}}
 
   ```
   kubectl delete -f basic-daemonset.yaml
   ```
 
 This simple DaemonSet example introduces key components like init containers and host path volumes,
-which can be expanded upon for more advanced use cases. For more details refer
+which can be expanded upon for more advanced use cases. For more details refer to
 [DaemonSet](/docs/concepts/workloads/controllers/daemonset/).
 
 
