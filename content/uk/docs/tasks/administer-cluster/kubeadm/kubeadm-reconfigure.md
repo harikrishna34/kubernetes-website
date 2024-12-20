@@ -172,21 +172,11 @@ kubectl edit service -n kube-system kube-dns
 
 #### Віддзеркалення змін у CoreDNS {#reflecting-the-coredns-changes}
 
-Після застосування змін у CoreDNS ви можете видалити його Podʼи:
-
-Отримайте назви Podʼів:
+Після застосування змін у CoreDNS ви можете перезапустити його deployment:
 
 ```shell
-kubectl get po -n kube-system | grep coredns
+kubectl rollout restart deployment -n kube-system coredns
 ```
-
-Видаліть Pod за допомогою:
-
-```shell
-kubectl delete po -n kube-system <імʼя-пода>
-```
-
-Нові Podʼи з оновленою конфігурацією CoreDNS будуть створені.
 
 {{< note >}}
 kubeadm не дозволяє налаштування CoreDNS під час створення та оновлення кластера. Це означає, що якщо ви виконаєте `kubeadm upgrade apply`, ваші зміни в обʼєктах CoreDNS будуть втрачені та мають бути застосовані повторно.

@@ -410,7 +410,6 @@ other = "Можливості Kubernetes"
 other = "Бажаєте отримувати останні новини Kubernetes? Підпишіться на KubeWeekly."
 
 [main_kubeweekly_past_link]
-# other = "View past newsletters"
 other = "Переглянути попередні інформаційні розсилки"
 
 [main_kubeweekly_signup]
