@@ -14,9 +14,24 @@ weight: 10
 
 <!-- overview -->
 
-Kubernetes volumes provide a way for containers in a Pod to retain
-data beyond a container's lifecycle. They act as directories that can store data
-and are accessible across containers in the Pod.
+Kubernetes _volumes_ provide a way for containers in a {{< glossary_tooltip text="pods" term_id="pod" >}}
+to access and share data via the filesystem. There are different kinds of volume that you can use for different purposes,
+such as:
+
+- populating a configuration file based on a {{< glossary_tooltip text="ConfigMap" term_id="configmap" >}}
+  or a {{< glossary_tooltip text="Secret" term_id="secret" >}}
+- providing some temporary scratch space for a pod
+- sharing a filesystem between two different containers in the same pod
+- sharing a filesystem between two different pods (even if those Pods run on different nodes)
+- durably storing data so that it stays available even if the Pod restarts or is replaced
+- passing configuration information to an app running in a container, based on details of the Pod
+  the container is in
+  (for example: telling a {{< glossary_tooltip text="sidecar container" term_id="sidecar-container" >}}
+  what namespace the Pod is running in)
+- providing read-only access to data in a different container image
+
+Data sharing can be between different local processes within a container, or between different containers,
+or between Pods.
 
 ## Why volumes are important
 
