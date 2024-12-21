@@ -46,11 +46,11 @@ need to share files. It can be challenging to setup
 and access a shared filesystem across all of the containers.
 
 The Kubernetes {{< glossary_tooltip text="volume" term_id="volume" >}} abstraction
-solves both of these problems.
+can help you to solve both of these problems.
 
-{{< note >}}
-Familiarity with [Pods](/docs/concepts/workloads/pods/) is suggested.
-{{< /note >}}
+Before you learn about volumes, PersistentVolumes and PersistentVolumeClaims, you should read up
+about {{< glossary_tooltip term_id="Pod" text="Pods" >}} and make sure that you understand how
+Kubernetes uses Pods to run containers.
   
 <!-- body -->
 
