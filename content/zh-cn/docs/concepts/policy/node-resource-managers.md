@@ -60,8 +60,8 @@ to enforce pod CPU limits.  When the node runs many CPU-bound pods, the workload
 work fine without any intervention.
 -->
 默认情况下，kubelet 使用 [CFS 配额](https://en.wikipedia.org/wiki/Completely_Fair_Scheduler)
-来强制执行 Pod 的 CPU 限制。当节点运行许多 CPU 密集型 Pod 时，工作负载可能会移动到不同的 CPU 内核，
-具体取决于 Pod 执行是否受到抑制以及调度时刻哪些 CPU 内核可用。
+来强制执行 Pod 的 CPU 限制。当节点运行许多 CPU 密集型 Pod 时，工作负载可能会移动到不同的 CPU 核，
+具体取决于 Pod 执行是否受到抑制以及调度时刻哪些 CPU 核可用。
 许多工作负载对这种迁移不敏感，因此无需任何干预即可正常工作。
 
 <!--
