@@ -5,7 +5,7 @@ weight: 5
 ---
 <!-- overview -->
 
-This page demonstrates how to build a basic DaemonSet that runs a Pod on every node in a Kubernetes cluster.
+This page demonstrates how to build a basic {{< glossary_tooltip text="DaemonSet" term_id="daemonset" >}} that runs a Pod on every node in a Kubernetes cluster.
 It covers a simple use case of mounting a file from the host, logging its contents using
 an [init container](/docs/concepts/workloads/pods/init-containers/), and utilizing a pause container.
 
@@ -15,7 +15,7 @@ an [init container](/docs/concepts/workloads/pods/init-containers/), and utilizi
 
 A Kubernetes cluster with at least two nodes (one control plane node and one worker node) to demonstrate the behavior of DaemonSets.
 
-## Building a DaemonSet
+## Define the DaemonSet
 
 In this task, a basic DaemonSet is created which ensures that the copy of a Pod is scheduled on every node.
 The Pod will use an init container to read and log the contents of `/etc/machine-id` from the host,
@@ -54,7 +54,7 @@ while the main container will be a `pause` container, which keeps the Pod runnin
 ## {{% heading "cleanup" %}}
 
   ```
-  kubectl delete -f basic-daemonset.yaml
+  kubectl delete --cascade=foreground --ignore-not-found --now daemonsets/example-daemonset
   ```
 
 This simple DaemonSet example introduces key components like init containers and host path volumes,
